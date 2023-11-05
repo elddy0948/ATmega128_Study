@@ -55,4 +55,4 @@ dkms.conf
 *.xml
 
 *.atsuo
-/Debug
+/Debug/
