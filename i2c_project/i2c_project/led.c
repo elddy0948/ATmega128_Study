@@ -18,15 +18,16 @@ uint8_t shift_left(uint8_t pattern)
 void loading_led()
 {
 	PORTC = led;
-	shift_left(led);
+	led = shift_left(led);
+	_delay_ms(4);
 }
 
 void ack_led()
 {
-	PORTC = 0xFF;
+	PORTC = 0xBF;
 }
 
 void noack_led()
 {
-	PORTC = 0x00;
+	PORTC = 0x7F;
 }

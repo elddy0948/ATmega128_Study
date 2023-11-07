@@ -14,6 +14,8 @@ static uint8_t page_buffer[PAGE_MAX] = {0x00};
 
 void i2c_start()
 {
+	CLK_OUT;
+	DATA_OUT;
 	DATA_HIGH;
 	CLK_HIGH;
 	DATA_LOW;
@@ -22,6 +24,8 @@ void i2c_start()
 
 void i2c_stop()
 {
+	CLK_OUT;
+	DATA_OUT;
 	DATA_LOW;
 	CLK_HIGH;
 	DATA_HIGH;
@@ -38,7 +42,7 @@ void write_data(uint8_t data)
 		loading_led();
 		if (GET_BIT(data, i) == 0x80)
 		{
-			PORTD |= 0x20;
+			PORTD |= 0x02;
 		}
 		else
 		{

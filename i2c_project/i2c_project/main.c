@@ -21,40 +21,41 @@ int main(void)
 	DATA_OUT;
 	
 	DDRC = 0xFF;
-	DDRE &= 0x0F;
+	//DDRE &= 0x0F;
+	DDRE = 0x00;
+	PORTC = 0xFF;
 	
-    /* Replace with your application code */
     while (1) 
     {
-		if ((PINE & 0x10) == 0x10)
+		if ((PINE & 0x10) == 0)
 		{
-			i2c_start();
-			
-			device_address &= 0xFE;		// set write
-			i2c_device_address_setup(device_address);
-			i2c_address_setup(address_to_write);
-			
-			i2c_byte_write(tmp_write);
-			
-			i2c_stop();
+ 			i2c_start();
+ 			
+ 			device_address &= 0xFE;		// set write
+ 			i2c_device_address_setup(device_address);
+ 			i2c_address_setup(address_to_write);
+ 			
+ 			i2c_byte_write(tmp_write);
+ 			
+ 			i2c_stop();
 		}
-		else if ((PINE & 0x70) == 0x70)
+		else if ((PINE & 0x80) == 0)
 		{
 			// Read something
-			i2c_start();
-			
-			device_address &= 0xFE;
-			i2c_device_address_setup(device_address);
-			i2c_address_setup(address_to_write);
-			
-			i2c_start();
-			
-			device_address |= 0x01;
-			i2c_device_address_setup(device_address);
-			
-			i2c_byte_read();
-			
-			i2c_stop();
+ 			i2c_start();
+ 			
+ 			device_address &= 0xFE;
+ 			i2c_device_address_setup(device_address);
+ 			i2c_address_setup(address_to_write);
+ 			
+ 			i2c_start();
+ 			
+ 			device_address |= 0x01;
+ 			i2c_device_address_setup(device_address);
+ 			
+ 			i2c_byte_read();
+ 			
+ 			i2c_stop();
 		}
     }
 }

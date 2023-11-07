@@ -28,7 +28,7 @@
 #define NOACK 0x02
 #define PAGE_MAX 16
 
-#define GET_BIT(bits, i) ((bits << i) & 0X80)
+#define GET_BIT(bits, i) ((bits << i) & 0x80)
 
 typedef unsigned char uint8_t;
 
