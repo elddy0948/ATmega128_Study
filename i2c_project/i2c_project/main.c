@@ -15,7 +15,6 @@ const uint8_t tmp_page[5] = {0xFF, 0xFE, 0xFD, 0xFC, 0xFB};
 
 int main(void)
 {
-	uint8_t device_address = 0xA0;
 	uint8_t address_to_write = 0x00;
 	
 	CLK_OUT;
@@ -31,10 +30,10 @@ int main(void)
 		{
 			i2c_start();
 			
-			device_address &= 0xFE;
- 			i2c_device_address_setup(device_address); 		
+			i2c_device_address_setup(DEVICE_ID, DA_WRITE);	
 			i2c_address_setup(address_to_write);
  			i2c_byte_write(tmp_write);
+			 
  			i2c_stop();
 			 _delay_ms(3000);
 		}
@@ -42,45 +41,38 @@ int main(void)
 		{
 			i2c_start();
 			
-			device_address &= 0xFE;
-			i2c_device_address_setup(device_address);
+			i2c_device_address_setup(DEVICE_ID, DA_WRITE);
 			i2c_address_setup(address_to_write);
 			i2c_page_write(tmp_page, 5);
+			
 			i2c_stop();
+			_delay_ms(3000);
 		}
 		else if ((PINE & 0x40) == 0)
 		{
 			i2c_start();
-			
-			device_address &= 0xFE;
-			i2c_device_address_setup(device_address);
+			i2c_device_address_setup(DEVICE_ID, DA_WRITE);
 			i2c_address_setup(address_to_write);
 			
 			i2c_start();
-			
-			device_address |= 0x01;
-			i2c_device_address_setup(device_address);
-			
+			i2c_device_address_setup(DEVICE_ID, DA_READ);
 			i2c_byte_read();
 			
 			i2c_stop();
+			_delay_ms(3000);
 		}
 		else if ((PINE & 0x80) == 0)
 		{
 			i2c_start();
-			
-			device_address &= 0xFE;
-			i2c_device_address_setup(device_address);
+			i2c_device_address_setup(DEVICE_ID, DA_WRITE);
 			i2c_address_setup(address_to_write);
 			
 			i2c_start();
-			
-			device_address |= 0x01;
-			i2c_device_address_setup(device_address);
-			
+			i2c_device_address_setup(DEVICE_ID, DA_READ);			
 			i2c_page_read(5);
 			
 			i2c_stop();
+			_delay_ms(3000);
 		}
     }
 }

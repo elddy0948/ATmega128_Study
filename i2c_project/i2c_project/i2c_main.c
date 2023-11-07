@@ -52,11 +52,12 @@ void write_data(uint8_t data)
 		{
 			DATA_LOW;
 		}
-		//(GET_BIT(data, i) == 0x80) ? DATA_HIGH : DATA_LOW;
+		
+		_delay_us(4);
 		CLK_HIGH;
-		_delay_us(6);
+		_delay_us(4);
 		CLK_LOW;
-		_delay_us(6);
+		_delay_us(4);
 	}
 }
 
@@ -65,8 +66,9 @@ uint8_t receive_response()
 	uint8_t t;
 	
 	DATA_IN;
+	_delay_us(4);
 	CLK_HIGH;
-	_delay_us(6);
+	_delay_us(4);
 	
 	for (t = 0; t < 20; ++t)
 	{	
@@ -75,14 +77,16 @@ uint8_t receive_response()
 		{
 			ack_led();
 			CLK_LOW;
-			_delay_us(6);
+			_delay_us(4);
 			return ACK;
 		}
 	}
 	
 	noack_led();
+
+	_delay_us(4);
 	CLK_LOW;
-	_delay_us(6);
+
 	return NOACK;
 }
 
@@ -92,8 +96,9 @@ uint8_t read_data()
 	uint8_t i;
 	
 	DATA_IN;
+	_delay_us(4);
 	CLK_HIGH;
-	_delay_us(6);
+	_delay_us(4);
 	
 	for (i = 0; i < 8; ++i)
 	{
@@ -101,18 +106,20 @@ uint8_t read_data()
 		received_data |= ((PIND >> 1) & 0x01);
 		if (i != 7) 
 		{ 
-			received_data << 1;
+			received_data <<= 1;
 		}
 	}
 	
+	_delay_us(4);
 	CLK_LOW;
-	_delay_us(6);
+	
 	return received_data;
 }
 
 void send_response(uint8_t data)
 {
 	DATA_OUT;
+	_delay_us(4);
 	
 	if (data == ACK)
 	{
@@ -125,36 +132,33 @@ void send_response(uint8_t data)
 		PORTD |= 0x02;
 	}
 	
+	_delay_us(4);
 	CLK_HIGH;
-	_delay_us(6);
+	_delay_us(4);
 	CLK_LOW;
-	_delay_us(6);
 }
 
-void i2c_device_address_setup(uint8_t device_address)
+void i2c_device_address_setup(uint8_t device_id, uint8_t rw)
 {
-	device_address = BASE_DEVICE_ADDRESS;
-	device_address &= 0xFE;
+	uint8_t device_address = 0x00;
+	device_address |= rw;
+	device_address |= device_id;
 	write_data(device_address);
 	
 	response = receive_response();
-	
-	if (response == NOACK) { i2c_stop();}
+	if (response == NOACK) { i2c_stop(); }
 }
 
 void i2c_address_setup(uint8_t address)
 {
-	address = 0x00;
 	write_data(address);
-	response = receive_response();
 	
+	response = receive_response();
 	if (response == NOACK) { i2c_stop(); }
 }
 
 void i2c_byte_write(uint8_t data)
 {
-	// send data
-	data = 0xFF;
 	write_data(data);
 	response = receive_response();
 }

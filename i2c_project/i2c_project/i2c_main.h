@@ -25,6 +25,9 @@
 #define DATA_LOW PORTD &= 0xFD
 
 #define BASE_DEVICE_ADDRESS 0xA0
+#define DEVICE_ID 0xA0
+#define DA_WRITE 0x00
+#define DA_READ 0x01
 
 #define ACK 0x00
 #define NOACK 0x02
@@ -43,7 +46,7 @@ uint8_t receive_response();
 uint8_t read_data();
 void send_response(uint8_t data);
 
-void i2c_device_address_setup(uint8_t device_address);
+void i2c_device_address_setup(uint8_t device_id, uint8_t rw);
 void i2c_address_setup(uint8_t address);
 
 void i2c_byte_write(uint8_t data);
