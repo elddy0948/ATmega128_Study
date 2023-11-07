@@ -18,7 +18,9 @@ void i2c_start()
 	DATA_OUT;
 	DATA_HIGH;
 	CLK_HIGH;
+	_delay_us(6);
 	DATA_LOW;
+	_delay_us(6);
 	CLK_LOW;
 }
 
@@ -28,7 +30,9 @@ void i2c_stop()
 	DATA_OUT;
 	DATA_LOW;
 	CLK_HIGH;
+	_delay_us(6);
 	DATA_HIGH;
+	_delay_us(6);
 	CLK_LOW;
 }
 
@@ -42,14 +46,17 @@ void write_data(uint8_t data)
 		loading_led();
 		if (GET_BIT(data, i) == 0x80)
 		{
-			PORTD |= 0x02;
+			DATA_HIGH;
 		}
-		else
+		else 
 		{
-			PORTD &= 0xFD;
+			DATA_LOW;
 		}
+		//(GET_BIT(data, i) == 0x80) ? DATA_HIGH : DATA_LOW;
 		CLK_HIGH;
+		_delay_us(6);
 		CLK_LOW;
+		_delay_us(6);
 	}
 }
 
@@ -59,6 +66,7 @@ uint8_t receive_response()
 	
 	DATA_IN;
 	CLK_HIGH;
+	_delay_us(6);
 	
 	for (t = 0; t < 20; ++t)
 	{	
@@ -67,12 +75,14 @@ uint8_t receive_response()
 		{
 			ack_led();
 			CLK_LOW;
+			_delay_us(6);
 			return ACK;
 		}
 	}
 	
 	noack_led();
 	CLK_LOW;
+	_delay_us(6);
 	return NOACK;
 }
 
@@ -83,6 +93,7 @@ uint8_t read_data()
 	
 	DATA_IN;
 	CLK_HIGH;
+	_delay_us(6);
 	
 	for (i = 0; i < 8; ++i)
 	{
@@ -95,6 +106,7 @@ uint8_t read_data()
 	}
 	
 	CLK_LOW;
+	_delay_us(6);
 	return received_data;
 }
 
@@ -114,7 +126,9 @@ void send_response(uint8_t data)
 	}
 	
 	CLK_HIGH;
+	_delay_us(6);
 	CLK_LOW;
+	_delay_us(6);
 }
 
 void i2c_device_address_setup(uint8_t device_address)
@@ -156,7 +170,6 @@ void i2c_page_write(const uint8_t page[], uint8_t page_size)
 		write_data(temp_data);
 		
 		response = receive_response();
-		_delay_ms(500);
 	}
 }
 
@@ -167,6 +180,8 @@ void i2c_byte_read()
 	received_data = read_data();
 	
 	send_response(NOACK);
+	
+	display_led(received_data);
 }
 
 void i2c_page_read(uint8_t page_size)
@@ -179,6 +194,8 @@ void i2c_page_read(uint8_t page_size)
 		received_data = read_data();
 		page_buffer[data_index] = received_data;
 		send_response(ACK);
+		
+		display_led(received_data);
 	}
 	
 	send_response(NOACK);

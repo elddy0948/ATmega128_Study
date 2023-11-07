@@ -8,8 +8,10 @@
 #pragma once
 #ifndef _I2C_MAIN_H
 #define _I2C_MAIN_H
+#define F_CPU 16000000L
 
 #include <avr/io.h>
+#include <util/delay.h>
 
 #define CLK_OUT DDRD |= 0x01
 

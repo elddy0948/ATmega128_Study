@@ -19,7 +19,6 @@ void loading_led()
 {
 	PORTC = led;
 	led = shift_left(led);
-	_delay_ms(4);
 }
 
 void ack_led()
@@ -30,4 +29,9 @@ void ack_led()
 void noack_led()
 {
 	PORTC = 0x7F;
+}
+
+void display_led(uint8_t led_to_display)
+{
+	PORTC = led_to_display;
 }
