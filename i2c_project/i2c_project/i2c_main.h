@@ -45,7 +45,7 @@ void i2c_device_address_setup(uint8_t device_address);
 void i2c_address_setup(uint8_t address);
 
 void i2c_byte_write(uint8_t data);
-void i2c_page_write(uint8_t page[], uint8_t page_size);
+void i2c_page_write(const uint8_t page[], uint8_t page_size);
 
 void i2c_byte_read();
 void i2c_page_read(uint8_t page_size);

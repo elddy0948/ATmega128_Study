@@ -145,7 +145,7 @@ void i2c_byte_write(uint8_t data)
 	response = receive_response();
 }
 
-void i2c_page_write(uint8_t page[], uint8_t page_size)
+void i2c_page_write(const uint8_t page[], uint8_t page_size)
 {
 	uint8_t data_index;
 	uint8_t temp_data;
@@ -156,6 +156,7 @@ void i2c_page_write(uint8_t page[], uint8_t page_size)
 		write_data(temp_data);
 		
 		response = receive_response();
+		_delay_ms(500);
 	}
 }
 
