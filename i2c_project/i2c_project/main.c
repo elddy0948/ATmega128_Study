@@ -15,7 +15,7 @@ const uint8_t tmp_page[5] = {0xFF, 0xFE, 0xFD, 0xFC, 0xFB};
 
 int main(void)
 {
-	uint8_t address_to_write = 0x00;
+	int address_to_write = 513;
 	
 	CLK_OUT;
 	DATA_OUT;
@@ -30,7 +30,7 @@ int main(void)
 		{
 			i2c_start();
 			
-			i2c_device_address_setup(DEVICE_ID, DA_WRITE);	
+			i2c_device_address_setup(DEVICE_ID, address_to_write, DA_WRITE);	
 			i2c_address_setup(address_to_write);
  			i2c_byte_write(tmp_write);
 			 
@@ -41,7 +41,7 @@ int main(void)
 		{
 			i2c_start();
 			
-			i2c_device_address_setup(DEVICE_ID, DA_WRITE);
+			i2c_device_address_setup(DEVICE_ID,address_to_write, DA_WRITE);
 			i2c_address_setup(address_to_write);
 			i2c_page_write(tmp_page, 5);
 			
@@ -51,11 +51,11 @@ int main(void)
 		else if ((PINE & 0x40) == 0)
 		{
 			i2c_start();
-			i2c_device_address_setup(DEVICE_ID, DA_WRITE);
+			i2c_device_address_setup(DEVICE_ID, address_to_write, DA_WRITE);
 			i2c_address_setup(address_to_write);
 			
 			i2c_start();
-			i2c_device_address_setup(DEVICE_ID, DA_READ);
+			i2c_device_address_setup(DEVICE_ID, address_to_write, DA_READ);
 			i2c_byte_read();
 			
 			i2c_stop();
@@ -64,11 +64,11 @@ int main(void)
 		else if ((PINE & 0x80) == 0)
 		{
 			i2c_start();
-			i2c_device_address_setup(DEVICE_ID, DA_WRITE);
+			i2c_device_address_setup(DEVICE_ID,address_to_write, DA_WRITE);
 			i2c_address_setup(address_to_write);
 			
 			i2c_start();
-			i2c_device_address_setup(DEVICE_ID, DA_READ);			
+			i2c_device_address_setup(DEVICE_ID, address_to_write, DA_READ);			
 			i2c_page_read(5);
 			
 			i2c_stop();

@@ -21,16 +21,6 @@ void loading_led()
 	led = shift_left(led);
 }
 
-void ack_led()
-{
-	PORTC = 0xBF;
-}
-
-void noack_led()
-{
-	PORTC = 0x7F;
-}
-
 void display_led(uint8_t led_to_display)
 {
 	PORTC = led_to_display;

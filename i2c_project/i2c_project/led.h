@@ -19,8 +19,6 @@ typedef unsigned char uint8_t;
 uint8_t shift_left(uint8_t pattern);
 
 void loading_led();
-void ack_led();
-void noack_led();
 void display_led(uint8_t led_to_display);
 
 #endif /* _LED_H */
