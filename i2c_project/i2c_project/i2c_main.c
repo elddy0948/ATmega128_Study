@@ -40,7 +40,9 @@ void write_data(uint8_t data)
 {
 	uint8_t i;
 	uint8_t data_buffer = data;
+
 	DATA_OUT;
+	_delay_us(4);
 	
 	for (i = 0; i < 7; ++i)
 	{
@@ -56,9 +58,8 @@ void write_data(uint8_t data)
 		
 		_delay_us(4);
 		CLK_HIGH;
-		_delay_us(3);
+		_delay_us(4);
 		CLK_LOW;
-		_delay_us(4);	
 	}
 	
 	if (((data_buffer << i) & 0x80) == 0x80) DATA_HIGH;
@@ -76,24 +77,24 @@ uint8_t receive_response()
 	uint8_t t;
 	
 	DATA_IN;
-	_delay_us(5);
+	_delay_us(6);
 	
 	CLK_HIGH;
 	
 	for (t = 0; t < 100; ++t)
 	{	
-		if ((PIND & 0x02) == 0x00)
+		if ((PIND & 0x02) == ACK)
 		{			
 			CLK_LOW;
 			DATA_OUT;
-			_delay_us(5);
+			_delay_us(6);
 			return ACK;
 		}
 	}
 	
 	CLK_LOW;
 	DATA_OUT;
-	_delay_us(5);
+	_delay_us(6);
 	
 	return NOACK;
 }
@@ -125,21 +126,17 @@ uint8_t read_data()
 void send_response(uint8_t data)
 {
 	DATA_OUT;
+	_delay_us(4);
 	
 	if (data == ACK)
-	{
-		PORTD &= 0xFD;
-	}
+		SEND_ACK;
 	else if (data == NOACK)
-	{
-		PORTD |= 0x02;
-	}
+		SEND_NOACK;
 	
 	_delay_us(4);
 	CLK_HIGH;
-	_delay_us(5);
+	_delay_us(4);
 	CLK_LOW;
-	_delay_us(5);
 }
 
 void i2c_device_address_setup(uint8_t device_id, int address, uint8_t rw)
