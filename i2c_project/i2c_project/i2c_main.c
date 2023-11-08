@@ -39,12 +39,13 @@ void i2c_stop()
 void write_data(uint8_t data)
 {
 	uint8_t i;
+	uint8_t data_buffer = data;
 	DATA_OUT;
 	
-	for (i = 0; i < 8; ++i)
+	for (i = 0; i < 7; ++i)
 	{
 		loading_led();
-		if (GET_BIT(data, i) == 0x80)
+		if (GET_BIT(data_buffer, i) == 0x80)
 		{
 			DATA_HIGH;
 		}
@@ -55,10 +56,19 @@ void write_data(uint8_t data)
 		
 		_delay_us(4);
 		CLK_HIGH;
-		_delay_us(4);
+		_delay_us(3);
 		CLK_LOW;
-		_delay_us(4);
+		_delay_us(4);	
 	}
+	
+	if (((data_buffer << i) & 0x80) == 0x80) DATA_HIGH;
+	else DATA_LOW;
+	
+	_delay_us(4);
+	CLK_HIGH;
+	_delay_us(3);
+	CLK_LOW;
+	_delay_us(4);
 }
 
 uint8_t receive_response()
@@ -66,27 +76,25 @@ uint8_t receive_response()
 	uint8_t t;
 	
 	DATA_IN;
-	_delay_us(4);
-	CLK_HIGH;
-	_delay_us(4);
+	_delay_us(5);
 	
-	for (t = 0; t < 20; ++t)
+	CLK_HIGH;
+	
+	for (t = 0; t < 100; ++t)
 	{	
-		// Waiting for response
-		if ((PIND & 0x02) == ACK)
-		{
-			ack_led();
+		if ((PIND & 0x02) == 0x00)
+		{			
 			CLK_LOW;
-			_delay_us(4);
+			DATA_OUT;
+			_delay_us(5);
 			return ACK;
 		}
 	}
 	
-	noack_led();
-
-	_delay_us(4);
 	CLK_LOW;
-
+	DATA_OUT;
+	_delay_us(5);
+	
 	return NOACK;
 }
 
@@ -96,13 +104,14 @@ uint8_t read_data()
 	uint8_t i;
 	
 	DATA_IN;
-	_delay_us(4);
-	CLK_HIGH;
-	_delay_us(4);
 	
 	for (i = 0; i < 8; ++i)
 	{
 		loading_led();
+		_delay_us(4);
+		CLK_HIGH;
+		_delay_us(10);
+		CLK_LOW;
 		received_data |= ((PIND >> 1) & 0x01);
 		if (i != 7) 
 		{ 
@@ -110,37 +119,42 @@ uint8_t read_data()
 		}
 	}
 	
-	_delay_us(4);
-	CLK_LOW;
-	
 	return received_data;
 }
 
 void send_response(uint8_t data)
 {
 	DATA_OUT;
-	_delay_us(4);
 	
 	if (data == ACK)
 	{
-		ack_led();
 		PORTD &= 0xFD;
 	}
 	else if (data == NOACK)
 	{
-		noack_led();
 		PORTD |= 0x02;
 	}
 	
 	_delay_us(4);
 	CLK_HIGH;
-	_delay_us(4);
+	_delay_us(5);
 	CLK_LOW;
+	_delay_us(5);
 }
 
-void i2c_device_address_setup(uint8_t device_id, uint8_t rw)
+void i2c_device_address_setup(uint8_t device_id, int address, uint8_t rw)
 {
 	uint8_t device_address = 0x00;
+
+	if (((address >> 9) & 0x0001) == 0x0001)
+	{
+		device_address |= 0x04;
+	}
+	else if (((address >> 8) & 0x0001) == 0x0001)
+	{
+		device_address |= 0x02;
+	}
+	
 	device_address |= rw;
 	device_address |= device_id;
 	write_data(device_address);
@@ -149,9 +163,10 @@ void i2c_device_address_setup(uint8_t device_id, uint8_t rw)
 	if (response == NOACK) { i2c_stop(); }
 }
 
-void i2c_address_setup(uint8_t address)
+void i2c_address_setup(int address)
 {
-	write_data(address);
+	uint8_t addr = (uint8_t)address;
+	write_data(addr);
 	
 	response = receive_response();
 	if (response == NOACK) { i2c_stop(); }
