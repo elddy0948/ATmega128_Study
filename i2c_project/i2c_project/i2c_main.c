@@ -101,7 +101,7 @@ uint8_t receive_response()
 
 uint8_t read_data()
 {
-	uint8_t received_data = 0x00;
+	uint8_t data_buffer = 0x00;
 	uint8_t i;
 	
 	DATA_IN;
@@ -113,14 +113,14 @@ uint8_t read_data()
 		CLK_HIGH;
 		_delay_us(10);
 		CLK_LOW;
-		received_data |= ((PIND >> 1) & 0x01);
+		data_buffer |= ((PIND >> 1) & 0x01);
 		if (i != 7) 
 		{ 
-			received_data <<= 1;
+			data_buffer <<= 1;
 		}
 	}
 	
-	return received_data;
+	return data_buffer;
 }
 
 void send_response(uint8_t data)
@@ -139,33 +139,32 @@ void send_response(uint8_t data)
 	CLK_LOW;
 }
 
-void i2c_device_address_setup(uint8_t device_id, int address, uint8_t rw)
+void i2c_device_address_setup(uint8_t device_id, uint16_t target_address, uint8_t rw)
 {
 	uint8_t device_address = 0x00;
 
-	if (((address >> 9) & 0x0001) == 0x0001)
-	{
-		device_address |= 0x04;
-	}
-	else if (((address >> 8) & 0x0001) == 0x0001)
-	{
-		device_address |= 0x02;
-	}
+	if (((target_address >> 9) & 0x0001) == 0x0001)
+		SET_A9;
+	else if (((target_address >> 8) & 0x0001) == 0x0001)
+		SET_A8;
 	
 	device_address |= rw;
 	device_address |= device_id;
+	
 	write_data(device_address);
 	
 	response = receive_response();
 	if (response == NOACK) { i2c_stop(); }
 }
 
-void i2c_address_setup(int address)
+void i2c_address_setup(uint16_t target_address)
 {
-	uint8_t addr = (uint8_t)address;
-	write_data(addr);
+	uint8_t address = (uint8_t)target_address;
+
+	write_data(address);
 	
 	response = receive_response();
+	
 	if (response == NOACK) { i2c_stop(); }
 }
 
@@ -178,12 +177,13 @@ void i2c_byte_write(uint8_t data)
 void i2c_page_write(const uint8_t page[], uint8_t page_size)
 {
 	uint8_t data_index;
-	uint8_t temp_data;
+	uint8_t data_buffer = 0x00;
 	
 	for (data_index = 0; data_index < page_size; ++data_index)
 	{
-		temp_data = page[data_index];
-		write_data(temp_data);
+		data_buffer = page[data_index];
+		
+		write_data(data_buffer);
 		
 		response = receive_response();
 	}
@@ -191,28 +191,31 @@ void i2c_page_write(const uint8_t page[], uint8_t page_size)
 
 void i2c_byte_read()
 {
-	uint8_t received_data;
+	uint8_t data_buffer;
 
-	received_data = read_data();
+	data_buffer = read_data();
 	
 	send_response(NOACK);
 	
-	display_led(received_data);
+	display_led(data_buffer);
 }
 
 void i2c_page_read(uint8_t page_size)
 {
 	uint8_t data_index;
-	uint8_t received_data;
+	uint8_t data_buffer = 0x00;
 	
 	for (data_index = 0; data_index < page_size; ++data_index)
 	{
-		received_data = read_data();
-		page_buffer[data_index] = received_data;
+		data_buffer = read_data();
+		page_buffer[data_index] = data_buffer;
+		
 		send_response(ACK);
 		
-		display_led(received_data);
+		display_led(data_buffer);
 	}
 	
 	send_response(NOACK);
+	
+	display_led(data_buffer)
 }

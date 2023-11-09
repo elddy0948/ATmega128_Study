@@ -36,14 +36,17 @@
 #define SEND_ACK PORTD &= 0xFD
 #define SEND_NOACK PORTD |= 0x02
 
+#define SET_A9(bits) (bits |= 0x04)
+#define SET_A8(bits) (bits |= 0x02)
+
 #define GET_BIT(bits, i) ((bits << i) & 0x80)
+#define PAGE_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
 typedef unsigned char uint8_t;
+typedef unsigned int uint16_t;
 
 void i2c_start();
 void i2c_stop();
-
-int create_target_address(int address);
 
 void write_data(uint8_t data);
 uint8_t receive_response();
@@ -51,8 +54,8 @@ uint8_t receive_response();
 uint8_t read_data();
 void send_response(uint8_t data);
 
-void i2c_device_address_setup(uint8_t device_id, int address, uint8_t rw);
-void i2c_address_setup(int address);
+void i2c_device_address_setup(uint8_t device_id, uint16_t target_address, uint8_t rw);
+void i2c_address_setup(uint16_t target_address);
 
 void i2c_byte_write(uint8_t data);
 void i2c_page_write(const uint8_t page[], uint8_t page_size);
