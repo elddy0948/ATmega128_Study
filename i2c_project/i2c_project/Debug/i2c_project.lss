@@ -3,31 +3,31 @@ i2c_project.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000006  00800100  00000478  0000050c  2**0
+  0 .data         00000006  00800100  00000456  000004ea  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000478  00000000  00000000  00000094  2**1
+  1 .text         00000456  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000001  00800106  00800106  00000512  2**0
+  2 .bss          00000003  00800106  00800106  000004f0  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000512  2**0
+  3 .comment      00000030  00000000  00000000  000004f0  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000544  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000520  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000c8  00000000  00000000  00000584  2**0
+  5 .debug_aranges 000000c8  00000000  00000000  00000560  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001554  00000000  00000000  0000064c  2**0
+  6 .debug_info   000014b4  00000000  00000000  00000628  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000b28  00000000  00000000  00001ba0  2**0
+  7 .debug_abbrev 00000a96  00000000  00000000  00001adc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0000098e  00000000  00000000  000026c8  2**0
+  8 .debug_line   00000959  00000000  00000000  00002572  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000180  00000000  00000000  00003058  2**2
+  9 .debug_frame  00000180  00000000  00000000  00002ecc  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000005af  00000000  00000000  000031d8  2**0
+ 10 .debug_str    000005b1  00000000  00000000  0000304c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000a09  00000000  00000000  00003787  2**0
+ 11 .debug_loc    000009a4  00000000  00000000  000035fd  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000098  00000000  00000000  00004190  2**0
+ 12 .debug_ranges 00000098  00000000  00000000  00003fa1  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -116,7 +116,7 @@ Disassembly of section .text:
   98:	11 e0       	ldi	r17, 0x01	; 1
   9a:	a0 e0       	ldi	r26, 0x00	; 0
   9c:	b1 e0       	ldi	r27, 0x01	; 1
-  9e:	e8 e7       	ldi	r30, 0x78	; 120
+  9e:	e6 e5       	ldi	r30, 0x56	; 86
   a0:	f4 e0       	ldi	r31, 0x04	; 4
   a2:	00 e0       	ldi	r16, 0x00	; 0
   a4:	0b bf       	out	0x3b, r16	; 59
@@ -137,11 +137,11 @@ Disassembly of section .text:
   ba:	1d 92       	st	X+, r1
 
 000000bc <.do_clear_bss_start>:
-  bc:	a7 30       	cpi	r26, 0x07	; 7
+  bc:	a9 30       	cpi	r26, 0x09	; 9
   be:	b2 07       	cpc	r27, r18
   c0:	e1 f7       	brne	.-8      	; 0xba <.do_clear_bss_loop>
-  c2:	61 d1       	rcall	.+706    	; 0x386 <main>
-  c4:	d7 c1       	rjmp	.+942    	; 0x474 <_exit>
+  c2:	62 d1       	rcall	.+708    	; 0x388 <main>
+  c4:	c6 c1       	rjmp	.+908    	; 0x452 <_exit>
 
 000000c6 <__bad_interrupt>:
   c6:	9c cf       	rjmp	.-200    	; 0x0 <__vectors>
@@ -241,6 +241,7 @@ void write_data(uint8_t data)
  130:	d8 2f       	mov	r29, r24
 	uint8_t i;
 	uint8_t data_buffer = data;
+
 	DATA_OUT;
  132:	81 b3       	in	r24, 0x11	; 17
  134:	82 60       	ori	r24, 0x02	; 2
@@ -251,7 +252,7 @@ void write_data(uint8_t data)
  13a:	24 c0       	rjmp	.+72     	; 0x184 <write_data+0x58>
 	{
 		loading_led();
- 13c:	19 d1       	rcall	.+562    	; 0x370 <loading_led>
+ 13c:	1a d1       	rcall	.+564    	; 0x372 <loading_led>
 		if (GET_BIT(data_buffer, i) == 0x80)
  13e:	8d 2f       	mov	r24, r29
  140:	90 e0       	ldi	r25, 0x00	; 0
@@ -276,41 +277,41 @@ void write_data(uint8_t data)
  15a:	82 b3       	in	r24, 0x12	; 18
  15c:	8d 7f       	andi	r24, 0xFD	; 253
  15e:	82 bb       	out	0x12, r24	; 18
- 160:	85 e1       	ldi	r24, 0x15	; 21
+ 160:	80 e1       	ldi	r24, 0x10	; 16
  162:	8a 95       	dec	r24
  164:	f1 f7       	brne	.-4      	; 0x162 <write_data+0x36>
- 166:	00 00       	nop
 		}
 		
-		_delay_us(4);
-		CLK_HIGH;
- 168:	82 b3       	in	r24, 0x12	; 18
- 16a:	81 60       	ori	r24, 0x01	; 1
- 16c:	82 bb       	out	0x12, r24	; 18
- 16e:	80 e1       	ldi	r24, 0x10	; 16
- 170:	8a 95       	dec	r24
- 172:	f1 f7       	brne	.-4      	; 0x170 <write_data+0x44>
 		_delay_us(3);
+		CLK_HIGH;
+ 166:	82 b3       	in	r24, 0x12	; 18
+ 168:	81 60       	ori	r24, 0x01	; 1
+ 16a:	82 bb       	out	0x12, r24	; 18
+ 16c:	8a e1       	ldi	r24, 0x1A	; 26
+ 16e:	8a 95       	dec	r24
+ 170:	f1 f7       	brne	.-4      	; 0x16e <write_data+0x42>
+ 172:	00 c0       	rjmp	.+0      	; 0x174 <write_data+0x48>
+		_delay_us(5);
 		CLK_LOW;
  174:	82 b3       	in	r24, 0x12	; 18
  176:	8e 7f       	andi	r24, 0xFE	; 254
  178:	82 bb       	out	0x12, r24	; 18
- 17a:	85 e1       	ldi	r24, 0x15	; 21
+ 17a:	8a e1       	ldi	r24, 0x1A	; 26
  17c:	8a 95       	dec	r24
  17e:	f1 f7       	brne	.-4      	; 0x17c <write_data+0x50>
- 180:	00 00       	nop
-{
+ 180:	00 c0       	rjmp	.+0      	; 0x182 <write_data+0x56>
 	uint8_t i;
 	uint8_t data_buffer = data;
+
 	DATA_OUT;
 	
 	for (i = 0; i < 7; ++i)
  182:	cf 5f       	subi	r28, 0xFF	; 255
  184:	c7 30       	cpi	r28, 0x07	; 7
  186:	d0 f2       	brcs	.-76     	; 0x13c <write_data+0x10>
-		_delay_us(3);
+		_delay_us(5);
 		CLK_LOW;
-		_delay_us(4);	
+		_delay_us(5);
 	}
 	
 	if (((data_buffer << i) & 0x80) == 0x80) DATA_HIGH;
@@ -331,29 +332,29 @@ void write_data(uint8_t data)
  1a2:	82 b3       	in	r24, 0x12	; 18
  1a4:	8d 7f       	andi	r24, 0xFD	; 253
  1a6:	82 bb       	out	0x12, r24	; 18
- 1a8:	85 e1       	ldi	r24, 0x15	; 21
+ 1a8:	80 e1       	ldi	r24, 0x10	; 16
  1aa:	8a 95       	dec	r24
  1ac:	f1 f7       	brne	.-4      	; 0x1aa <write_data+0x7e>
- 1ae:	00 00       	nop
 	
-	_delay_us(4);
-	CLK_HIGH;
- 1b0:	82 b3       	in	r24, 0x12	; 18
- 1b2:	81 60       	ori	r24, 0x01	; 1
- 1b4:	82 bb       	out	0x12, r24	; 18
- 1b6:	80 e1       	ldi	r24, 0x10	; 16
- 1b8:	8a 95       	dec	r24
- 1ba:	f1 f7       	brne	.-4      	; 0x1b8 <write_data+0x8c>
 	_delay_us(3);
+	CLK_HIGH;
+ 1ae:	82 b3       	in	r24, 0x12	; 18
+ 1b0:	81 60       	ori	r24, 0x01	; 1
+ 1b2:	82 bb       	out	0x12, r24	; 18
+ 1b4:	8a e1       	ldi	r24, 0x1A	; 26
+ 1b6:	8a 95       	dec	r24
+ 1b8:	f1 f7       	brne	.-4      	; 0x1b6 <write_data+0x8a>
+ 1ba:	00 c0       	rjmp	.+0      	; 0x1bc <write_data+0x90>
+	_delay_us(5);
 	CLK_LOW;
  1bc:	82 b3       	in	r24, 0x12	; 18
  1be:	8e 7f       	andi	r24, 0xFE	; 254
  1c0:	82 bb       	out	0x12, r24	; 18
- 1c2:	85 e1       	ldi	r24, 0x15	; 21
+ 1c2:	8a e1       	ldi	r24, 0x1A	; 26
  1c4:	8a 95       	dec	r24
  1c6:	f1 f7       	brne	.-4      	; 0x1c4 <write_data+0x98>
- 1c8:	00 00       	nop
-	_delay_us(4);
+ 1c8:	00 c0       	rjmp	.+0      	; 0x1ca <write_data+0x9e>
+	_delay_us(5);
 }
  1ca:	df 91       	pop	r29
  1cc:	cf 91       	pop	r28
@@ -369,70 +370,69 @@ uint8_t receive_response()
  1d0:	81 b3       	in	r24, 0x11	; 17
  1d2:	8d 7f       	andi	r24, 0xFD	; 253
  1d4:	81 bb       	out	0x11, r24	; 17
- 1d6:	8a e1       	ldi	r24, 0x1A	; 26
- 1d8:	8a 95       	dec	r24
- 1da:	f1 f7       	brne	.-4      	; 0x1d8 <receive_response+0x8>
- 1dc:	00 c0       	rjmp	.+0      	; 0x1de <receive_response+0xe>
-	_delay_us(5);
-	
 	CLK_HIGH;
- 1de:	82 b3       	in	r24, 0x12	; 18
- 1e0:	81 60       	ori	r24, 0x01	; 1
- 1e2:	82 bb       	out	0x12, r24	; 18
+ 1d6:	82 b3       	in	r24, 0x12	; 18
+ 1d8:	81 60       	ori	r24, 0x01	; 1
+ 1da:	82 bb       	out	0x12, r24	; 18
 	
-	for (t = 0; t < 100; ++t)
- 1e4:	20 e0       	ldi	r18, 0x00	; 0
- 1e6:	11 c0       	rjmp	.+34     	; 0x20a <receive_response+0x3a>
+	for (t = 0; t < 20; ++t)
+ 1dc:	90 e0       	ldi	r25, 0x00	; 0
+ 1de:	13 c0       	rjmp	.+38     	; 0x206 <receive_response+0x36>
 	{	
-		if ((PIND & 0x02) == 0x00)
- 1e8:	90 b3       	in	r25, 0x10	; 16
- 1ea:	89 2f       	mov	r24, r25
- 1ec:	82 70       	andi	r24, 0x02	; 2
- 1ee:	91 fd       	sbrc	r25, 1
- 1f0:	0b c0       	rjmp	.+22     	; 0x208 <receive_response+0x38>
-		{			
+		if ((PIND & 0x02) == ACK)
+ 1e0:	20 b3       	in	r18, 0x10	; 16
+ 1e2:	82 2f       	mov	r24, r18
+ 1e4:	82 70       	andi	r24, 0x02	; 2
+ 1e6:	21 fd       	sbrc	r18, 1
+ 1e8:	0d c0       	rjmp	.+26     	; 0x204 <receive_response+0x34>
+ 1ea:	90 e2       	ldi	r25, 0x20	; 32
+ 1ec:	9a 95       	dec	r25
+ 1ee:	f1 f7       	brne	.-4      	; 0x1ec <receive_response+0x1c>
+		{
+			_delay_us(6);			
 			CLK_LOW;
- 1f2:	92 b3       	in	r25, 0x12	; 18
- 1f4:	9e 7f       	andi	r25, 0xFE	; 254
- 1f6:	92 bb       	out	0x12, r25	; 18
+ 1f0:	92 b3       	in	r25, 0x12	; 18
+ 1f2:	9e 7f       	andi	r25, 0xFE	; 254
+ 1f4:	92 bb       	out	0x12, r25	; 18
 			DATA_OUT;
- 1f8:	91 b3       	in	r25, 0x11	; 17
- 1fa:	92 60       	ori	r25, 0x02	; 2
- 1fc:	91 bb       	out	0x11, r25	; 17
- 1fe:	9a e1       	ldi	r25, 0x1A	; 26
- 200:	9a 95       	dec	r25
- 202:	f1 f7       	brne	.-4      	; 0x200 <receive_response+0x30>
- 204:	00 c0       	rjmp	.+0      	; 0x206 <receive_response+0x36>
-			_delay_us(5);
+ 1f6:	91 b3       	in	r25, 0x11	; 17
+ 1f8:	92 60       	ori	r25, 0x02	; 2
+ 1fa:	91 bb       	out	0x11, r25	; 17
+ 1fc:	90 e2       	ldi	r25, 0x20	; 32
+ 1fe:	9a 95       	dec	r25
+ 200:	f1 f7       	brne	.-4      	; 0x1fe <receive_response+0x2e>
+			_delay_us(6);
 			return ACK;
- 206:	08 95       	ret
-	DATA_IN;
-	_delay_us(5);
+ 202:	08 95       	ret
+	uint8_t t;
 	
+	DATA_IN;
 	CLK_HIGH;
 	
-	for (t = 0; t < 100; ++t)
- 208:	2f 5f       	subi	r18, 0xFF	; 255
- 20a:	24 36       	cpi	r18, 0x64	; 100
- 20c:	68 f3       	brcs	.-38     	; 0x1e8 <receive_response+0x18>
-			_delay_us(5);
+	for (t = 0; t < 20; ++t)
+ 204:	9f 5f       	subi	r25, 0xFF	; 255
+ 206:	94 31       	cpi	r25, 0x14	; 20
+ 208:	58 f3       	brcs	.-42     	; 0x1e0 <receive_response+0x10>
+ 20a:	80 e2       	ldi	r24, 0x20	; 32
+ 20c:	8a 95       	dec	r24
+ 20e:	f1 f7       	brne	.-4      	; 0x20c <receive_response+0x3c>
 			return ACK;
 		}
 	}
 	
+	_delay_us(6);
 	CLK_LOW;
- 20e:	82 b3       	in	r24, 0x12	; 18
- 210:	8e 7f       	andi	r24, 0xFE	; 254
- 212:	82 bb       	out	0x12, r24	; 18
+ 210:	82 b3       	in	r24, 0x12	; 18
+ 212:	8e 7f       	andi	r24, 0xFE	; 254
+ 214:	82 bb       	out	0x12, r24	; 18
 	DATA_OUT;
- 214:	81 b3       	in	r24, 0x11	; 17
- 216:	82 60       	ori	r24, 0x02	; 2
- 218:	81 bb       	out	0x11, r24	; 17
- 21a:	8a e1       	ldi	r24, 0x1A	; 26
- 21c:	8a 95       	dec	r24
- 21e:	f1 f7       	brne	.-4      	; 0x21c <receive_response+0x4c>
- 220:	00 c0       	rjmp	.+0      	; 0x222 <receive_response+0x52>
-	_delay_us(5);
+ 216:	81 b3       	in	r24, 0x11	; 17
+ 218:	82 60       	ori	r24, 0x02	; 2
+ 21a:	81 bb       	out	0x11, r24	; 17
+ 21c:	90 e2       	ldi	r25, 0x20	; 32
+ 21e:	9a 95       	dec	r25
+ 220:	f1 f7       	brne	.-4      	; 0x21e <receive_response+0x4e>
+	_delay_us(6);
 	
 	return NOACK;
  222:	82 e0       	ldi	r24, 0x02	; 2
@@ -445,7 +445,7 @@ uint8_t read_data()
 {
  226:	cf 93       	push	r28
  228:	df 93       	push	r29
-	uint8_t received_data = 0x00;
+	uint8_t data_buffer = 0x00;
 	uint8_t i;
 	
 	DATA_IN;
@@ -460,548 +460,519 @@ uint8_t read_data()
 
 uint8_t read_data()
 {
-	uint8_t received_data = 0x00;
+	uint8_t data_buffer = 0x00;
  232:	d0 e0       	ldi	r29, 0x00	; 0
 	uint8_t i;
 	
 	DATA_IN;
 	
 	for (i = 0; i < 8; ++i)
- 234:	17 c0       	rjmp	.+46     	; 0x264 <read_data+0x3e>
+ 234:	16 c0       	rjmp	.+44     	; 0x262 <read_data+0x3c>
 	{
 		loading_led();
- 236:	9c d0       	rcall	.+312    	; 0x370 <loading_led>
- 238:	85 e1       	ldi	r24, 0x15	; 21
- 23a:	8a 95       	dec	r24
- 23c:	f1 f7       	brne	.-4      	; 0x23a <read_data+0x14>
- 23e:	00 00       	nop
-		_delay_us(4);
+ 236:	9d d0       	rcall	.+314    	; 0x372 <loading_led>
 		CLK_HIGH;
- 240:	82 b3       	in	r24, 0x12	; 18
- 242:	81 60       	ori	r24, 0x01	; 1
- 244:	82 bb       	out	0x12, r24	; 18
- 246:	85 e3       	ldi	r24, 0x35	; 53
- 248:	8a 95       	dec	r24
- 24a:	f1 f7       	brne	.-4      	; 0x248 <read_data+0x22>
- 24c:	00 00       	nop
+ 238:	82 b3       	in	r24, 0x12	; 18
+ 23a:	81 60       	ori	r24, 0x01	; 1
+ 23c:	82 bb       	out	0x12, r24	; 18
+ 23e:	85 e3       	ldi	r24, 0x35	; 53
+ 240:	8a 95       	dec	r24
+ 242:	f1 f7       	brne	.-4      	; 0x240 <read_data+0x1a>
+ 244:	00 00       	nop
 		_delay_us(10);
 		CLK_LOW;
- 24e:	82 b3       	in	r24, 0x12	; 18
- 250:	8e 7f       	andi	r24, 0xFE	; 254
- 252:	82 bb       	out	0x12, r24	; 18
-		received_data |= ((PIND >> 1) & 0x01);
- 254:	80 b3       	in	r24, 0x10	; 16
- 256:	86 95       	lsr	r24
- 258:	81 70       	andi	r24, 0x01	; 1
- 25a:	d8 2b       	or	r29, r24
+ 246:	82 b3       	in	r24, 0x12	; 18
+ 248:	8e 7f       	andi	r24, 0xFE	; 254
+ 24a:	82 bb       	out	0x12, r24	; 18
+		data_buffer |= ((PIND >> 1) & 0x01);
+ 24c:	80 b3       	in	r24, 0x10	; 16
+ 24e:	86 95       	lsr	r24
+ 250:	81 70       	andi	r24, 0x01	; 1
+ 252:	d8 2b       	or	r29, r24
 		if (i != 7) 
- 25c:	c7 30       	cpi	r28, 0x07	; 7
- 25e:	09 f0       	breq	.+2      	; 0x262 <read_data+0x3c>
+ 254:	c7 30       	cpi	r28, 0x07	; 7
+ 256:	09 f0       	breq	.+2      	; 0x25a <read_data+0x34>
 		{ 
-			received_data <<= 1;
- 260:	dd 0f       	add	r29, r29
-	uint8_t received_data = 0x00;
+			data_buffer <<= 1;
+ 258:	dd 0f       	add	r29, r29
+ 25a:	80 e1       	ldi	r24, 0x10	; 16
+ 25c:	8a 95       	dec	r24
+ 25e:	f1 f7       	brne	.-4      	; 0x25c <read_data+0x36>
+	uint8_t data_buffer = 0x00;
 	uint8_t i;
 	
 	DATA_IN;
 	
 	for (i = 0; i < 8; ++i)
- 262:	cf 5f       	subi	r28, 0xFF	; 255
- 264:	c8 30       	cpi	r28, 0x08	; 8
- 266:	38 f3       	brcs	.-50     	; 0x236 <read_data+0x10>
-			received_data <<= 1;
+ 260:	cf 5f       	subi	r28, 0xFF	; 255
+ 262:	c8 30       	cpi	r28, 0x08	; 8
+ 264:	40 f3       	brcs	.-48     	; 0x236 <read_data+0x10>
 		}
+		_delay_us(3);
 	}
 	
-	return received_data;
+	return data_buffer;
 }
- 268:	8d 2f       	mov	r24, r29
- 26a:	df 91       	pop	r29
- 26c:	cf 91       	pop	r28
- 26e:	08 95       	ret
+ 266:	8d 2f       	mov	r24, r29
+ 268:	df 91       	pop	r29
+ 26a:	cf 91       	pop	r28
+ 26c:	08 95       	ret
 
-00000270 <send_response>:
+0000026e <send_response>:
 
 void send_response(uint8_t data)
 {
 	DATA_OUT;
- 270:	91 b3       	in	r25, 0x11	; 17
- 272:	92 60       	ori	r25, 0x02	; 2
- 274:	91 bb       	out	0x11, r25	; 17
-	
+ 26e:	91 b3       	in	r25, 0x11	; 17
+ 270:	92 60       	ori	r25, 0x02	; 2
+ 272:	91 bb       	out	0x11, r25	; 17
+
 	if (data == ACK)
- 276:	81 11       	cpse	r24, r1
- 278:	04 c0       	rjmp	.+8      	; 0x282 <send_response+0x12>
-	{
-		PORTD &= 0xFD;
- 27a:	82 b3       	in	r24, 0x12	; 18
- 27c:	8d 7f       	andi	r24, 0xFD	; 253
- 27e:	82 bb       	out	0x12, r24	; 18
- 280:	05 c0       	rjmp	.+10     	; 0x28c <send_response+0x1c>
-	}
+ 274:	81 11       	cpse	r24, r1
+ 276:	04 c0       	rjmp	.+8      	; 0x280 <send_response+0x12>
+		SEND_ACK;
+ 278:	82 b3       	in	r24, 0x12	; 18
+ 27a:	8d 7f       	andi	r24, 0xFD	; 253
+ 27c:	82 bb       	out	0x12, r24	; 18
+ 27e:	05 c0       	rjmp	.+10     	; 0x28a <send_response+0x1c>
 	else if (data == NOACK)
- 282:	82 30       	cpi	r24, 0x02	; 2
- 284:	19 f4       	brne	.+6      	; 0x28c <send_response+0x1c>
-	{
-		PORTD |= 0x02;
- 286:	82 b3       	in	r24, 0x12	; 18
- 288:	82 60       	ori	r24, 0x02	; 2
- 28a:	82 bb       	out	0x12, r24	; 18
- 28c:	85 e1       	ldi	r24, 0x15	; 21
- 28e:	8a 95       	dec	r24
- 290:	f1 f7       	brne	.-4      	; 0x28e <send_response+0x1e>
- 292:	00 00       	nop
-	}
+ 280:	82 30       	cpi	r24, 0x02	; 2
+ 282:	19 f4       	brne	.+6      	; 0x28a <send_response+0x1c>
+		SEND_NOACK;
+ 284:	82 b3       	in	r24, 0x12	; 18
+ 286:	82 60       	ori	r24, 0x02	; 2
+ 288:	82 bb       	out	0x12, r24	; 18
+ 28a:	80 e1       	ldi	r24, 0x10	; 16
+ 28c:	8a 95       	dec	r24
+ 28e:	f1 f7       	brne	.-4      	; 0x28c <send_response+0x1e>
 	
-	_delay_us(4);
+	_delay_us(3);
 	CLK_HIGH;
- 294:	82 b3       	in	r24, 0x12	; 18
- 296:	81 60       	ori	r24, 0x01	; 1
- 298:	82 bb       	out	0x12, r24	; 18
- 29a:	8a e1       	ldi	r24, 0x1A	; 26
- 29c:	8a 95       	dec	r24
- 29e:	f1 f7       	brne	.-4      	; 0x29c <send_response+0x2c>
- 2a0:	00 c0       	rjmp	.+0      	; 0x2a2 <send_response+0x32>
+ 290:	82 b3       	in	r24, 0x12	; 18
+ 292:	81 60       	ori	r24, 0x01	; 1
+ 294:	82 bb       	out	0x12, r24	; 18
+ 296:	8a e1       	ldi	r24, 0x1A	; 26
+ 298:	8a 95       	dec	r24
+ 29a:	f1 f7       	brne	.-4      	; 0x298 <send_response+0x2a>
+ 29c:	00 c0       	rjmp	.+0      	; 0x29e <send_response+0x30>
 	_delay_us(5);
 	CLK_LOW;
- 2a2:	82 b3       	in	r24, 0x12	; 18
- 2a4:	8e 7f       	andi	r24, 0xFE	; 254
- 2a6:	82 bb       	out	0x12, r24	; 18
- 2a8:	8a e1       	ldi	r24, 0x1A	; 26
- 2aa:	8a 95       	dec	r24
- 2ac:	f1 f7       	brne	.-4      	; 0x2aa <send_response+0x3a>
- 2ae:	00 c0       	rjmp	.+0      	; 0x2b0 <send_response+0x40>
- 2b0:	08 95       	ret
+ 29e:	82 b3       	in	r24, 0x12	; 18
+ 2a0:	8e 7f       	andi	r24, 0xFE	; 254
+ 2a2:	82 bb       	out	0x12, r24	; 18
+ 2a4:	8a e1       	ldi	r24, 0x1A	; 26
+ 2a6:	8a 95       	dec	r24
+ 2a8:	f1 f7       	brne	.-4      	; 0x2a6 <send_response+0x38>
+ 2aa:	00 c0       	rjmp	.+0      	; 0x2ac <send_response+0x3e>
+ 2ac:	08 95       	ret
 
-000002b2 <i2c_device_address_setup>:
+000002ae <i2c_device_address_setup>:
 
-void i2c_device_address_setup(uint8_t device_id, int address, uint8_t rw)
+void i2c_device_address_setup(uint8_t device_id, uint16_t target_address, uint8_t rw)
 {
 	uint8_t device_address = 0x00;
 
-	if (((address >> 9) & 0x0001) == 0x0001)
- 2b2:	71 fd       	sbrc	r23, 1
- 2b4:	04 c0       	rjmp	.+8      	; 0x2be <i2c_device_address_setup+0xc>
-	{
-		device_address |= 0x04;
-	}
-	else if (((address >> 8) & 0x0001) == 0x0001)
- 2b6:	70 fd       	sbrc	r23, 0
- 2b8:	04 c0       	rjmp	.+8      	; 0x2c2 <i2c_device_address_setup+0x10>
+	if (((target_address >> 9) & 0x0001) == 0x0001)
+ 2ae:	71 fd       	sbrc	r23, 1
+ 2b0:	04 c0       	rjmp	.+8      	; 0x2ba <i2c_device_address_setup+0xc>
+		SET_A9(device_address);
+	else if (((target_address >> 8) & 0x0001) == 0x0001)
+ 2b2:	70 fd       	sbrc	r23, 0
+ 2b4:	04 c0       	rjmp	.+8      	; 0x2be <i2c_device_address_setup+0x10>
 	_delay_us(5);
 }
 
-void i2c_device_address_setup(uint8_t device_id, int address, uint8_t rw)
+void i2c_device_address_setup(uint8_t device_id, uint16_t target_address, uint8_t rw)
 {
 	uint8_t device_address = 0x00;
- 2ba:	90 e0       	ldi	r25, 0x00	; 0
- 2bc:	03 c0       	rjmp	.+6      	; 0x2c4 <i2c_device_address_setup+0x12>
+ 2b6:	90 e0       	ldi	r25, 0x00	; 0
+ 2b8:	03 c0       	rjmp	.+6      	; 0x2c0 <i2c_device_address_setup+0x12>
 
-	if (((address >> 9) & 0x0001) == 0x0001)
-	{
-		device_address |= 0x04;
- 2be:	94 e0       	ldi	r25, 0x04	; 4
- 2c0:	01 c0       	rjmp	.+2      	; 0x2c4 <i2c_device_address_setup+0x12>
-	}
-	else if (((address >> 8) & 0x0001) == 0x0001)
-	{
-		device_address |= 0x02;
- 2c2:	92 e0       	ldi	r25, 0x02	; 2
-	}
+	if (((target_address >> 9) & 0x0001) == 0x0001)
+		SET_A9(device_address);
+ 2ba:	94 e0       	ldi	r25, 0x04	; 4
+ 2bc:	01 c0       	rjmp	.+2      	; 0x2c0 <i2c_device_address_setup+0x12>
+	else if (((target_address >> 8) & 0x0001) == 0x0001)
+		SET_A8(device_address);
+ 2be:	92 e0       	ldi	r25, 0x02	; 2
 	
 	device_address |= rw;
- 2c4:	49 2b       	or	r20, r25
+ 2c0:	49 2b       	or	r20, r25
 	device_address |= device_id;
+	
 	write_data(device_address);
- 2c6:	84 2b       	or	r24, r20
- 2c8:	31 df       	rcall	.-414    	; 0x12c <write_data>
+ 2c2:	84 2b       	or	r24, r20
+ 2c4:	33 df       	rcall	.-410    	; 0x12c <write_data>
 	
 	response = receive_response();
- 2ca:	82 df       	rcall	.-252    	; 0x1d0 <receive_response>
- 2cc:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <__data_end>
- 2d0:	82 30       	cpi	r24, 0x02	; 2
+ 2c6:	84 df       	rcall	.-248    	; 0x1d0 <receive_response>
+ 2c8:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <__data_end>
+ 2cc:	82 30       	cpi	r24, 0x02	; 2
+	
 	if (response == NOACK) { i2c_stop(); }
- 2d2:	09 f4       	brne	.+2      	; 0x2d6 <i2c_device_address_setup+0x24>
- 2d4:	12 cf       	rjmp	.-476    	; 0xfa <i2c_stop>
- 2d6:	08 95       	ret
+ 2ce:	09 f4       	brne	.+2      	; 0x2d2 <i2c_device_address_setup+0x24>
+ 2d0:	14 cf       	rjmp	.-472    	; 0xfa <i2c_stop>
+ 2d2:	08 95       	ret
 
-000002d8 <i2c_address_setup>:
- 2d8:	29 df       	rcall	.-430    	; 0x12c <write_data>
-void i2c_address_setup(int address)
+000002d4 <i2c_address_setup>:
+ 2d4:	2b df       	rcall	.-426    	; 0x12c <write_data>
 {
-	uint8_t addr = (uint8_t)address;
-	write_data(addr);
+	uint8_t address = (uint8_t)target_address;
+
+	write_data(address);
 	
 	response = receive_response();
- 2da:	7a df       	rcall	.-268    	; 0x1d0 <receive_response>
- 2dc:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <__data_end>
- 2e0:	82 30       	cpi	r24, 0x02	; 2
+ 2d6:	7c df       	rcall	.-264    	; 0x1d0 <receive_response>
+ 2d8:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <__data_end>
+ 2dc:	82 30       	cpi	r24, 0x02	; 2
+	
 	if (response == NOACK) { i2c_stop(); }
- 2e2:	09 f4       	brne	.+2      	; 0x2e6 <i2c_address_setup+0xe>
- 2e4:	0a cf       	rjmp	.-492    	; 0xfa <i2c_stop>
- 2e6:	08 95       	ret
+ 2de:	09 f4       	brne	.+2      	; 0x2e2 <i2c_address_setup+0xe>
+ 2e0:	0c cf       	rjmp	.-488    	; 0xfa <i2c_stop>
+ 2e2:	08 95       	ret
 
-000002e8 <i2c_byte_write>:
- 2e8:	21 df       	rcall	.-446    	; 0x12c <write_data>
+000002e4 <i2c_byte_write>:
+ 2e4:	23 df       	rcall	.-442    	; 0x12c <write_data>
 }
 
 void i2c_byte_write(uint8_t data)
 {
 	write_data(data);
 	response = receive_response();
- 2ea:	72 df       	rcall	.-284    	; 0x1d0 <receive_response>
- 2ec:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <__data_end>
- 2f0:	08 95       	ret
+ 2e6:	74 df       	rcall	.-280    	; 0x1d0 <receive_response>
+ 2e8:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <__data_end>
+ 2ec:	08 95       	ret
 
-000002f2 <i2c_page_write>:
- 2f2:	0f 93       	push	r16
+000002ee <i2c_page_write>:
+ 2ee:	0f 93       	push	r16
 }
 
 void i2c_page_write(const uint8_t page[], uint8_t page_size)
 {
- 2f4:	1f 93       	push	r17
- 2f6:	cf 93       	push	r28
- 2f8:	df 93       	push	r29
- 2fa:	8c 01       	movw	r16, r24
- 2fc:	d6 2f       	mov	r29, r22
+ 2f0:	1f 93       	push	r17
+ 2f2:	cf 93       	push	r28
+ 2f4:	df 93       	push	r29
+ 2f6:	8c 01       	movw	r16, r24
+ 2f8:	d6 2f       	mov	r29, r22
 	uint8_t data_index;
-	uint8_t temp_data;
+	uint8_t data_buffer = 0x00;
 	
 	for (data_index = 0; data_index < page_size; ++data_index)
- 2fe:	c0 e0       	ldi	r28, 0x00	; 0
- 300:	09 c0       	rjmp	.+18     	; 0x314 <i2c_page_write+0x22>
+ 2fa:	c0 e0       	ldi	r28, 0x00	; 0
+ 2fc:	09 c0       	rjmp	.+18     	; 0x310 <i2c_page_write+0x22>
 	{
-		temp_data = page[data_index];
- 302:	f8 01       	movw	r30, r16
- 304:	ec 0f       	add	r30, r28
- 306:	f1 1d       	adc	r31, r1
-		write_data(temp_data);
- 308:	80 81       	ld	r24, Z
- 30a:	10 df       	rcall	.-480    	; 0x12c <write_data>
+		data_buffer = page[data_index];
+ 2fe:	f8 01       	movw	r30, r16
+ 300:	ec 0f       	add	r30, r28
+ 302:	f1 1d       	adc	r31, r1
+		
+		write_data(data_buffer);
+ 304:	80 81       	ld	r24, Z
+ 306:	12 df       	rcall	.-476    	; 0x12c <write_data>
 		
 		response = receive_response();
- 30c:	61 df       	rcall	.-318    	; 0x1d0 <receive_response>
- 30e:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <__data_end>
- 312:	cf 5f       	subi	r28, 0xFF	; 255
+ 308:	63 df       	rcall	.-314    	; 0x1d0 <receive_response>
+ 30a:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <__data_end>
+ 30e:	cf 5f       	subi	r28, 0xFF	; 255
 void i2c_page_write(const uint8_t page[], uint8_t page_size)
 {
 	uint8_t data_index;
-	uint8_t temp_data;
+	uint8_t data_buffer = 0x00;
 	
 	for (data_index = 0; data_index < page_size; ++data_index)
- 314:	cd 17       	cp	r28, r29
- 316:	a8 f3       	brcs	.-22     	; 0x302 <i2c_page_write+0x10>
- 318:	df 91       	pop	r29
-		temp_data = page[data_index];
-		write_data(temp_data);
+ 310:	cd 17       	cp	r28, r29
+ 312:	a8 f3       	brcs	.-22     	; 0x2fe <i2c_page_write+0x10>
+ 314:	df 91       	pop	r29
+		
+		write_data(data_buffer);
 		
 		response = receive_response();
 	}
 }
- 31a:	cf 91       	pop	r28
- 31c:	1f 91       	pop	r17
- 31e:	0f 91       	pop	r16
- 320:	08 95       	ret
+ 316:	cf 91       	pop	r28
+ 318:	1f 91       	pop	r17
+ 31a:	0f 91       	pop	r16
+ 31c:	08 95       	ret
 
-00000322 <i2c_byte_read>:
- 322:	cf 93       	push	r28
+0000031e <i2c_byte_read>:
+ 31e:	cf 93       	push	r28
 
 void i2c_byte_read()
 {
-	uint8_t received_data;
+	uint8_t data_buffer;
 
-	received_data = read_data();
- 324:	80 df       	rcall	.-256    	; 0x226 <read_data>
- 326:	c8 2f       	mov	r28, r24
+	data_buffer = read_data();
+ 320:	82 df       	rcall	.-252    	; 0x226 <read_data>
+ 322:	c8 2f       	mov	r28, r24
 	
 	send_response(NOACK);
- 328:	82 e0       	ldi	r24, 0x02	; 2
- 32a:	a2 df       	rcall	.-188    	; 0x270 <send_response>
+ 324:	82 e0       	ldi	r24, 0x02	; 2
+ 326:	a3 df       	rcall	.-186    	; 0x26e <send_response>
 	
-	display_led(received_data);
- 32c:	8c 2f       	mov	r24, r28
- 32e:	29 d0       	rcall	.+82     	; 0x382 <display_led>
- 330:	cf 91       	pop	r28
+	display_led(data_buffer);
+ 328:	8c 2f       	mov	r24, r28
+ 32a:	2c d0       	rcall	.+88     	; 0x384 <display_led>
+ 32c:	cf 91       	pop	r28
 }
- 332:	08 95       	ret
+ 32e:	08 95       	ret
 
-00000334 <i2c_page_read>:
- 334:	1f 93       	push	r17
+00000330 <i2c_page_read>:
+ 330:	1f 93       	push	r17
 
 void i2c_page_read(uint8_t page_size)
 {
- 336:	cf 93       	push	r28
- 338:	df 93       	push	r29
- 33a:	18 2f       	mov	r17, r24
+ 332:	cf 93       	push	r28
+ 334:	df 93       	push	r29
+ 336:	18 2f       	mov	r17, r24
 	uint8_t data_index;
-	uint8_t received_data;
+	uint8_t data_buffer = 0x00;
+ 338:	d0 e0       	ldi	r29, 0x00	; 0
 	
 	for (data_index = 0; data_index < page_size; ++data_index)
- 33c:	c0 e0       	ldi	r28, 0x00	; 0
- 33e:	07 c0       	rjmp	.+14     	; 0x34e <i2c_page_read+0x1a>
+ 33a:	c0 e0       	ldi	r28, 0x00	; 0
+ 33c:	07 c0       	rjmp	.+14     	; 0x34c <i2c_page_read+0x1c>
 	{
-		received_data = read_data();
- 340:	72 df       	rcall	.-284    	; 0x226 <read_data>
- 342:	d8 2f       	mov	r29, r24
-		page_buffer[data_index] = received_data;
-		send_response(ACK);
- 344:	80 e0       	ldi	r24, 0x00	; 0
- 346:	94 df       	rcall	.-216    	; 0x270 <send_response>
+		data_buffer = read_data();
+ 33e:	73 df       	rcall	.-282    	; 0x226 <read_data>
+ 340:	d8 2f       	mov	r29, r24
+		page_buffer[data_index] = data_buffer;
 		
-		display_led(received_data);
- 348:	8d 2f       	mov	r24, r29
- 34a:	1b d0       	rcall	.+54     	; 0x382 <display_led>
- 34c:	cf 5f       	subi	r28, 0xFF	; 255
+		send_response(ACK);
+ 342:	80 e0       	ldi	r24, 0x00	; 0
+ 344:	94 df       	rcall	.-216    	; 0x26e <send_response>
+		
+		display_led(data_buffer);
+ 346:	8d 2f       	mov	r24, r29
+ 348:	1d d0       	rcall	.+58     	; 0x384 <display_led>
+ 34a:	cf 5f       	subi	r28, 0xFF	; 255
 void i2c_page_read(uint8_t page_size)
 {
 	uint8_t data_index;
-	uint8_t received_data;
+	uint8_t data_buffer = 0x00;
 	
 	for (data_index = 0; data_index < page_size; ++data_index)
- 34e:	c1 17       	cp	r28, r17
- 350:	b8 f3       	brcs	.-18     	; 0x340 <i2c_page_read+0xc>
+ 34c:	c1 17       	cp	r28, r17
+ 34e:	b8 f3       	brcs	.-18     	; 0x33e <i2c_page_read+0xe>
 		send_response(ACK);
 		
-		display_led(received_data);
+		display_led(data_buffer);
 	}
 	
 	send_response(NOACK);
- 352:	82 e0       	ldi	r24, 0x02	; 2
- 354:	8d df       	rcall	.-230    	; 0x270 <send_response>
- 356:	df 91       	pop	r29
- 358:	cf 91       	pop	r28
- 35a:	1f 91       	pop	r17
- 35c:	08 95       	ret
+ 350:	82 e0       	ldi	r24, 0x02	; 2
+ 352:	8d df       	rcall	.-230    	; 0x26e <send_response>
+	
+	display_led(data_buffer);
+ 354:	8d 2f       	mov	r24, r29
+ 356:	16 d0       	rcall	.+44     	; 0x384 <display_led>
+ 358:	df 91       	pop	r29
+ 35a:	cf 91       	pop	r28
+ 35c:	1f 91       	pop	r17
+ 35e:	08 95       	ret
 
-0000035e <shift_left>:
+00000360 <shift_left>:
 
 uint8_t led = 0xFE;
 
 uint8_t shift_left(uint8_t pattern)
 {
 	return ((pattern << 1) | (pattern >> 7));
- 35e:	28 2f       	mov	r18, r24
- 360:	30 e0       	ldi	r19, 0x00	; 0
- 362:	22 0f       	add	r18, r18
- 364:	33 1f       	adc	r19, r19
- 366:	88 1f       	adc	r24, r24
- 368:	88 27       	eor	r24, r24
- 36a:	88 1f       	adc	r24, r24
+ 360:	28 2f       	mov	r18, r24
+ 362:	30 e0       	ldi	r19, 0x00	; 0
+ 364:	22 0f       	add	r18, r18
+ 366:	33 1f       	adc	r19, r19
+ 368:	88 1f       	adc	r24, r24
+ 36a:	88 27       	eor	r24, r24
+ 36c:	88 1f       	adc	r24, r24
 }
- 36c:	82 2b       	or	r24, r18
- 36e:	08 95       	ret
+ 36e:	82 2b       	or	r24, r18
+ 370:	08 95       	ret
 
-00000370 <loading_led>:
+00000372 <loading_led>:
 
 void loading_led()
 {
 	PORTC = led;
- 370:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__data_start>
- 374:	85 bb       	out	0x15, r24	; 21
+ 372:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 376:	85 bb       	out	0x15, r24	; 21
 	led = shift_left(led);
- 376:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__data_start>
- 37a:	f1 df       	rcall	.-30     	; 0x35e <shift_left>
- 37c:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__data_start>
- 380:	08 95       	ret
+ 378:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 37c:	f1 df       	rcall	.-30     	; 0x360 <shift_left>
+ 37e:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 382:	08 95       	ret
 
-00000382 <display_led>:
+00000384 <display_led>:
 }
 
 void display_led(uint8_t led_to_display)
 {
 	PORTC = led_to_display;
- 382:	85 bb       	out	0x15, r24	; 21
- 384:	08 95       	ret
+ 384:	85 bb       	out	0x15, r24	; 21
+ 386:	08 95       	ret
 
-00000386 <main>:
+00000388 <main>:
+uint8_t prev_state = 0x00;
+uint8_t curr_state = 0x00;
 
 int main(void)
 {
-	int address_to_write = 513;
-	
 	CLK_OUT;
- 386:	81 b3       	in	r24, 0x11	; 17
- 388:	81 60       	ori	r24, 0x01	; 1
- 38a:	81 bb       	out	0x11, r24	; 17
+ 388:	81 b3       	in	r24, 0x11	; 17
+ 38a:	81 60       	ori	r24, 0x01	; 1
+ 38c:	81 bb       	out	0x11, r24	; 17
 	DATA_OUT;
- 38c:	81 b3       	in	r24, 0x11	; 17
- 38e:	82 60       	ori	r24, 0x02	; 2
- 390:	81 bb       	out	0x11, r24	; 17
+ 38e:	81 b3       	in	r24, 0x11	; 17
+ 390:	82 60       	ori	r24, 0x02	; 2
+ 392:	81 bb       	out	0x11, r24	; 17
 	
 	DDRC = 0xFF;
- 392:	8f ef       	ldi	r24, 0xFF	; 255
- 394:	84 bb       	out	0x14, r24	; 20
+ 394:	8f ef       	ldi	r24, 0xFF	; 255
+ 396:	84 bb       	out	0x14, r24	; 20
 	DDRE = 0x00;
- 396:	12 b8       	out	0x02, r1	; 2
+ 398:	12 b8       	out	0x02, r1	; 2
 	PORTC = 0xFF;
- 398:	85 bb       	out	0x15, r24	; 21
+ 39a:	85 bb       	out	0x15, r24	; 21
 	
     while (1) 
     {
-		if ((PINE & 0x10) == 0)
- 39a:	0c 99       	sbic	0x01, 4	; 1
- 39c:	16 c0       	rjmp	.+44     	; 0x3ca <main+0x44>
+		curr_state = PINE;
+ 39c:	91 b1       	in	r25, 0x01	; 1
+ 39e:	90 93 07 01 	sts	0x0107, r25	; 0x800107 <curr_state>
+		
+		if (ALL_SWITCH_OFF(prev_state) && SWITCH4_ON(curr_state))
+ 3a2:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <prev_state>
+ 3a6:	80 7f       	andi	r24, 0xF0	; 240
+ 3a8:	80 3f       	cpi	r24, 0xF0	; 240
+ 3aa:	79 f4       	brne	.+30     	; 0x3ca <main+0x42>
+ 3ac:	94 fd       	sbrc	r25, 4
+ 3ae:	0d c0       	rjmp	.+26     	; 0x3ca <main+0x42>
 		{
 			i2c_start();
- 39e:	94 de       	rcall	.-728    	; 0xc8 <i2c_start>
+ 3b0:	8b de       	rcall	.-746    	; 0xc8 <i2c_start>
 			
 			i2c_device_address_setup(DEVICE_ID, address_to_write, DA_WRITE);	
- 3a0:	40 e0       	ldi	r20, 0x00	; 0
- 3a2:	61 e0       	ldi	r22, 0x01	; 1
- 3a4:	72 e0       	ldi	r23, 0x02	; 2
- 3a6:	80 ea       	ldi	r24, 0xA0	; 160
- 3a8:	84 df       	rcall	.-248    	; 0x2b2 <i2c_device_address_setup>
+ 3b2:	40 e0       	ldi	r20, 0x00	; 0
+ 3b4:	61 e0       	ldi	r22, 0x01	; 1
+ 3b6:	72 e0       	ldi	r23, 0x02	; 2
+ 3b8:	80 ea       	ldi	r24, 0xA0	; 160
+ 3ba:	79 df       	rcall	.-270    	; 0x2ae <i2c_device_address_setup>
 			i2c_address_setup(address_to_write);
- 3aa:	81 e0       	ldi	r24, 0x01	; 1
- 3ac:	92 e0       	ldi	r25, 0x02	; 2
+ 3bc:	81 e0       	ldi	r24, 0x01	; 1
+ 3be:	92 e0       	ldi	r25, 0x02	; 2
  			i2c_byte_write(tmp_write);
- 3ae:	94 df       	rcall	.-216    	; 0x2d8 <i2c_address_setup>
- 3b0:	8f ef       	ldi	r24, 0xFF	; 255
- 3b2:	9a df       	rcall	.-204    	; 0x2e8 <i2c_byte_write>
+ 3c0:	89 df       	rcall	.-238    	; 0x2d4 <i2c_address_setup>
+ 3c2:	8f ef       	ldi	r24, 0xFF	; 255
+ 3c4:	8f df       	rcall	.-226    	; 0x2e4 <i2c_byte_write>
 			 
  			i2c_stop();
- 3b4:	a2 de       	rcall	.-700    	; 0xfa <i2c_stop>
- 3b6:	2f ef       	ldi	r18, 0xFF	; 255
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
-
-	__builtin_avr_delay_cycles(__ticks_dc);
- 3b8:	8b e7       	ldi	r24, 0x7B	; 123
- 3ba:	92 e9       	ldi	r25, 0x92	; 146
- 3bc:	21 50       	subi	r18, 0x01	; 1
- 3be:	80 40       	sbci	r24, 0x00	; 0
- 3c0:	90 40       	sbci	r25, 0x00	; 0
- 3c2:	e1 f7       	brne	.-8      	; 0x3bc <main+0x36>
- 3c4:	00 c0       	rjmp	.+0      	; 0x3c6 <main+0x40>
- 3c6:	00 00       	nop
- 3c8:	e8 cf       	rjmp	.-48     	; 0x39a <main+0x14>
-			 _delay_ms(3000);
+ 3c6:	99 de       	rcall	.-718    	; 0xfa <i2c_stop>
+ 3c8:	3f c0       	rjmp	.+126    	; 0x448 <__LOCK_REGION_LENGTH__+0x48>
 		}
-		else if ((PINE & 0x20) == 0)
- 3ca:	0d 99       	sbic	0x01, 5	; 1
- 3cc:	18 c0       	rjmp	.+48     	; 0x3fe <main+0x78>
+		else if (ALL_SWITCH_OFF(prev_state) && SWITCH5_ON(curr_state))
+ 3ca:	80 3f       	cpi	r24, 0xF0	; 240
+ 3cc:	89 f4       	brne	.+34     	; 0x3f0 <main+0x68>
+ 3ce:	95 fd       	sbrc	r25, 5
+ 3d0:	0f c0       	rjmp	.+30     	; 0x3f0 <main+0x68>
 		{
 			i2c_start();
- 3ce:	7c de       	rcall	.-776    	; 0xc8 <i2c_start>
+ 3d2:	7a de       	rcall	.-780    	; 0xc8 <i2c_start>
 			
 			i2c_device_address_setup(DEVICE_ID,address_to_write, DA_WRITE);
- 3d0:	40 e0       	ldi	r20, 0x00	; 0
- 3d2:	61 e0       	ldi	r22, 0x01	; 1
- 3d4:	72 e0       	ldi	r23, 0x02	; 2
- 3d6:	80 ea       	ldi	r24, 0xA0	; 160
- 3d8:	6c df       	rcall	.-296    	; 0x2b2 <i2c_device_address_setup>
+ 3d4:	40 e0       	ldi	r20, 0x00	; 0
+ 3d6:	61 e0       	ldi	r22, 0x01	; 1
+ 3d8:	72 e0       	ldi	r23, 0x02	; 2
+ 3da:	80 ea       	ldi	r24, 0xA0	; 160
+ 3dc:	68 df       	rcall	.-304    	; 0x2ae <i2c_device_address_setup>
 			i2c_address_setup(address_to_write);
- 3da:	81 e0       	ldi	r24, 0x01	; 1
- 3dc:	92 e0       	ldi	r25, 0x02	; 2
- 3de:	7c df       	rcall	.-264    	; 0x2d8 <i2c_address_setup>
-			i2c_page_write(tmp_page, 5);
- 3e0:	65 e0       	ldi	r22, 0x05	; 5
- 3e2:	81 e0       	ldi	r24, 0x01	; 1
- 3e4:	91 e0       	ldi	r25, 0x01	; 1
- 3e6:	85 df       	rcall	.-246    	; 0x2f2 <i2c_page_write>
- 3e8:	88 de       	rcall	.-752    	; 0xfa <i2c_stop>
+ 3de:	81 e0       	ldi	r24, 0x01	; 1
+ 3e0:	92 e0       	ldi	r25, 0x02	; 2
+ 3e2:	78 df       	rcall	.-272    	; 0x2d4 <i2c_address_setup>
+			i2c_page_write(tmp_page, PAGE_SIZE(tmp_page));
+ 3e4:	65 e0       	ldi	r22, 0x05	; 5
+ 3e6:	81 e0       	ldi	r24, 0x01	; 1
+ 3e8:	91 e0       	ldi	r25, 0x01	; 1
+ 3ea:	81 df       	rcall	.-254    	; 0x2ee <i2c_page_write>
 			
 			i2c_stop();
- 3ea:	2f ef       	ldi	r18, 0xFF	; 255
- 3ec:	8b e7       	ldi	r24, 0x7B	; 123
- 3ee:	92 e9       	ldi	r25, 0x92	; 146
- 3f0:	21 50       	subi	r18, 0x01	; 1
- 3f2:	80 40       	sbci	r24, 0x00	; 0
- 3f4:	90 40       	sbci	r25, 0x00	; 0
- 3f6:	e1 f7       	brne	.-8      	; 0x3f0 <main+0x6a>
- 3f8:	00 c0       	rjmp	.+0      	; 0x3fa <main+0x74>
- 3fa:	00 00       	nop
- 3fc:	ce cf       	rjmp	.-100    	; 0x39a <main+0x14>
-			_delay_ms(3000);
+ 3ec:	86 de       	rcall	.-756    	; 0xfa <i2c_stop>
+ 3ee:	2c c0       	rjmp	.+88     	; 0x448 <__LOCK_REGION_LENGTH__+0x48>
 		}
-		else if ((PINE & 0x40) == 0)
- 3fe:	0e 99       	sbic	0x01, 6	; 1
+		else if (ALL_SWITCH_OFF(prev_state) && SWITCH6_ON(curr_state))
+ 3f0:	80 3f       	cpi	r24, 0xF0	; 240
+ 3f2:	a1 f4       	brne	.+40     	; 0x41c <__LOCK_REGION_LENGTH__+0x1c>
+ 3f4:	96 fd       	sbrc	r25, 6
 		{
 			i2c_start();
- 400:	1b c0       	rjmp	.+54     	; 0x438 <__LOCK_REGION_LENGTH__+0x38>
- 402:	62 de       	rcall	.-828    	; 0xc8 <i2c_start>
+ 3f6:	12 c0       	rjmp	.+36     	; 0x41c <__LOCK_REGION_LENGTH__+0x1c>
+ 3f8:	67 de       	rcall	.-818    	; 0xc8 <i2c_start>
 			i2c_device_address_setup(DEVICE_ID, address_to_write, DA_WRITE);
- 404:	40 e0       	ldi	r20, 0x00	; 0
- 406:	61 e0       	ldi	r22, 0x01	; 1
- 408:	72 e0       	ldi	r23, 0x02	; 2
- 40a:	80 ea       	ldi	r24, 0xA0	; 160
+ 3fa:	40 e0       	ldi	r20, 0x00	; 0
+ 3fc:	61 e0       	ldi	r22, 0x01	; 1
+ 3fe:	72 e0       	ldi	r23, 0x02	; 2
+ 400:	80 ea       	ldi	r24, 0xA0	; 160
 			i2c_address_setup(address_to_write);
- 40c:	52 df       	rcall	.-348    	; 0x2b2 <i2c_device_address_setup>
- 40e:	81 e0       	ldi	r24, 0x01	; 1
- 410:	92 e0       	ldi	r25, 0x02	; 2
- 412:	62 df       	rcall	.-316    	; 0x2d8 <i2c_address_setup>
+ 402:	55 df       	rcall	.-342    	; 0x2ae <i2c_device_address_setup>
+ 404:	81 e0       	ldi	r24, 0x01	; 1
+ 406:	92 e0       	ldi	r25, 0x02	; 2
+ 408:	65 df       	rcall	.-310    	; 0x2d4 <i2c_address_setup>
 			
 			i2c_start();
- 414:	59 de       	rcall	.-846    	; 0xc8 <i2c_start>
- 416:	41 e0       	ldi	r20, 0x01	; 1
+ 40a:	5e de       	rcall	.-836    	; 0xc8 <i2c_start>
 			i2c_device_address_setup(DEVICE_ID, address_to_write, DA_READ);
- 418:	61 e0       	ldi	r22, 0x01	; 1
- 41a:	72 e0       	ldi	r23, 0x02	; 2
- 41c:	80 ea       	ldi	r24, 0xA0	; 160
- 41e:	49 df       	rcall	.-366    	; 0x2b2 <i2c_device_address_setup>
- 420:	80 df       	rcall	.-256    	; 0x322 <i2c_byte_read>
+ 40c:	41 e0       	ldi	r20, 0x01	; 1
+ 40e:	61 e0       	ldi	r22, 0x01	; 1
+ 410:	72 e0       	ldi	r23, 0x02	; 2
+ 412:	80 ea       	ldi	r24, 0xA0	; 160
+ 414:	4c df       	rcall	.-360    	; 0x2ae <i2c_device_address_setup>
 			i2c_byte_read();
- 422:	6b de       	rcall	.-810    	; 0xfa <i2c_stop>
- 424:	2f ef       	ldi	r18, 0xFF	; 255
+ 416:	83 df       	rcall	.-250    	; 0x31e <i2c_byte_read>
 			
 			i2c_stop();
- 426:	8b e7       	ldi	r24, 0x7B	; 123
- 428:	92 e9       	ldi	r25, 0x92	; 146
- 42a:	21 50       	subi	r18, 0x01	; 1
- 42c:	80 40       	sbci	r24, 0x00	; 0
- 42e:	90 40       	sbci	r25, 0x00	; 0
- 430:	e1 f7       	brne	.-8      	; 0x42a <__LOCK_REGION_LENGTH__+0x2a>
- 432:	00 c0       	rjmp	.+0      	; 0x434 <__LOCK_REGION_LENGTH__+0x34>
- 434:	00 00       	nop
- 436:	b1 cf       	rjmp	.-158    	; 0x39a <main+0x14>
-			_delay_ms(3000);
+ 418:	70 de       	rcall	.-800    	; 0xfa <i2c_stop>
+ 41a:	16 c0       	rjmp	.+44     	; 0x448 <__LOCK_REGION_LENGTH__+0x48>
+ 41c:	80 3f       	cpi	r24, 0xF0	; 240
 		}
-		else if ((PINE & 0x80) == 0)
- 438:	0f 99       	sbic	0x01, 7	; 1
+		else if (ALL_SWITCH_OFF(prev_state) && SWITCH7_ON(curr_state))
+ 41e:	a1 f4       	brne	.+40     	; 0x448 <__LOCK_REGION_LENGTH__+0x48>
+ 420:	99 23       	and	r25, r25
 		{
 			i2c_start();
- 43a:	af cf       	rjmp	.-162    	; 0x39a <main+0x14>
+ 422:	94 f0       	brlt	.+36     	; 0x448 <__LOCK_REGION_LENGTH__+0x48>
 			i2c_device_address_setup(DEVICE_ID,address_to_write, DA_WRITE);
- 43c:	45 de       	rcall	.-886    	; 0xc8 <i2c_start>
- 43e:	40 e0       	ldi	r20, 0x00	; 0
- 440:	61 e0       	ldi	r22, 0x01	; 1
- 442:	72 e0       	ldi	r23, 0x02	; 2
- 444:	80 ea       	ldi	r24, 0xA0	; 160
- 446:	35 df       	rcall	.-406    	; 0x2b2 <i2c_device_address_setup>
+ 424:	51 de       	rcall	.-862    	; 0xc8 <i2c_start>
+ 426:	40 e0       	ldi	r20, 0x00	; 0
+ 428:	61 e0       	ldi	r22, 0x01	; 1
+ 42a:	72 e0       	ldi	r23, 0x02	; 2
+ 42c:	80 ea       	ldi	r24, 0xA0	; 160
+ 42e:	3f df       	rcall	.-386    	; 0x2ae <i2c_device_address_setup>
 			i2c_address_setup(address_to_write);
- 448:	81 e0       	ldi	r24, 0x01	; 1
- 44a:	92 e0       	ldi	r25, 0x02	; 2
- 44c:	45 df       	rcall	.-374    	; 0x2d8 <i2c_address_setup>
- 44e:	3c de       	rcall	.-904    	; 0xc8 <i2c_start>
+ 430:	81 e0       	ldi	r24, 0x01	; 1
+ 432:	92 e0       	ldi	r25, 0x02	; 2
+ 434:	4f df       	rcall	.-354    	; 0x2d4 <i2c_address_setup>
+ 436:	48 de       	rcall	.-880    	; 0xc8 <i2c_start>
 			
 			i2c_start();
- 450:	41 e0       	ldi	r20, 0x01	; 1
- 452:	61 e0       	ldi	r22, 0x01	; 1
+ 438:	41 e0       	ldi	r20, 0x01	; 1
+ 43a:	61 e0       	ldi	r22, 0x01	; 1
 			i2c_device_address_setup(DEVICE_ID, address_to_write, DA_READ);			
- 454:	72 e0       	ldi	r23, 0x02	; 2
- 456:	80 ea       	ldi	r24, 0xA0	; 160
- 458:	2c df       	rcall	.-424    	; 0x2b2 <i2c_device_address_setup>
- 45a:	85 e0       	ldi	r24, 0x05	; 5
- 45c:	6b df       	rcall	.-298    	; 0x334 <i2c_page_read>
- 45e:	4d de       	rcall	.-870    	; 0xfa <i2c_stop>
+ 43c:	72 e0       	ldi	r23, 0x02	; 2
+ 43e:	80 ea       	ldi	r24, 0xA0	; 160
+ 440:	36 df       	rcall	.-404    	; 0x2ae <i2c_device_address_setup>
+ 442:	85 e0       	ldi	r24, 0x05	; 5
+ 444:	75 df       	rcall	.-278    	; 0x330 <i2c_page_read>
+ 446:	59 de       	rcall	.-846    	; 0xfa <i2c_stop>
 			i2c_page_read(5);
- 460:	2f ef       	ldi	r18, 0xFF	; 255
- 462:	8b e7       	ldi	r24, 0x7B	; 123
- 464:	92 e9       	ldi	r25, 0x92	; 146
+ 448:	80 91 07 01 	lds	r24, 0x0107	; 0x800107 <curr_state>
+ 44c:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <prev_state>
 			
 			i2c_stop();
- 466:	21 50       	subi	r18, 0x01	; 1
- 468:	80 40       	sbci	r24, 0x00	; 0
- 46a:	90 40       	sbci	r25, 0x00	; 0
- 46c:	e1 f7       	brne	.-8      	; 0x466 <__LOCK_REGION_LENGTH__+0x66>
- 46e:	00 c0       	rjmp	.+0      	; 0x470 <__LOCK_REGION_LENGTH__+0x70>
- 470:	00 00       	nop
- 472:	93 cf       	rjmp	.-218    	; 0x39a <main+0x14>
+ 450:	a5 cf       	rjmp	.-182    	; 0x39c <main+0x14>
 
-00000474 <_exit>:
- 474:	f8 94       	cli
+00000452 <_exit>:
+		}
+		
+		prev_state = curr_state;
+ 452:	f8 94       	cli
 
-00000476 <__stop_program>:
- 476:	ff cf       	rjmp	.-2      	; 0x476 <__stop_program>
+00000454 <__stop_program>:
+ 454:	ff cf       	rjmp	.-2      	; 0x454 <__stop_program>

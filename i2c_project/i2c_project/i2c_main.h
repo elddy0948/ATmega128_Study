@@ -36,6 +36,12 @@
 #define SEND_ACK PORTD &= 0xFD
 #define SEND_NOACK PORTD |= 0x02
 
+#define ALL_SWITCH_OFF(bits) ((bits & 0xF0) == 0xF0)
+#define SWITCH4_ON(bits) ((bits & 0x10) == 0)
+#define SWITCH5_ON(bits) ((bits & 0x20) == 0)
+#define SWITCH6_ON(bits) ((bits & 0x40) == 0)
+#define SWITCH7_ON(bits) ((bits & 0x80) == 0)
+
 #define SET_A9(bits) (bits |= 0x04)
 #define SET_A8(bits) (bits |= 0x02)
 
