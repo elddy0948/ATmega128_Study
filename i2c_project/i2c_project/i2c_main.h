@@ -51,13 +51,13 @@
 typedef unsigned char uint8_t;
 typedef unsigned int uint16_t;
 
-void i2c_start();
-void i2c_stop();
+void i2c_start(void);
+void i2c_stop(void);
 
 void write_data(uint8_t data);
-uint8_t receive_response();
+uint8_t receive_response(void);
 
-uint8_t read_data();
+uint8_t read_data(void);
 void send_response(uint8_t data);
 
 void i2c_device_address_setup(uint8_t device_id, uint16_t target_address, uint8_t rw);
@@ -66,7 +66,7 @@ void i2c_address_setup(uint16_t target_address);
 void i2c_byte_write(uint8_t data);
 void i2c_page_write(const uint8_t page[], uint8_t page_size);
 
-void i2c_byte_read();
+void i2c_byte_read(void);
 void i2c_page_read(uint8_t page_size);
 
 #endif /*_I2C_MAIN_H */

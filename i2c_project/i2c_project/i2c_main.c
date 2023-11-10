@@ -12,7 +12,7 @@
 uint8_t response = 0x00;
 static uint8_t page_buffer[PAGE_MAX] = {0x00};
 
-void i2c_start()
+void i2c_start(void)
 {
 	CLK_OUT;
 	DATA_OUT;
@@ -24,7 +24,7 @@ void i2c_start()
 	CLK_LOW;
 }
 
-void i2c_stop()
+void i2c_stop(void)
 {
 	CLK_OUT;
 	DATA_OUT;
@@ -72,7 +72,7 @@ void write_data(uint8_t data)
 	_delay_us(5);
 }
 
-uint8_t receive_response()
+uint8_t receive_response(void)
 {
 	uint8_t t;
 	
@@ -99,7 +99,7 @@ uint8_t receive_response()
 	return NOACK;
 }
 
-uint8_t read_data()
+uint8_t read_data(void)
 {
 	uint8_t data_buffer = 0x00;
 	uint8_t i;
@@ -190,7 +190,7 @@ void i2c_page_write(const uint8_t page[], uint8_t page_size)
 	}
 }
 
-void i2c_byte_read()
+void i2c_byte_read(void)
 {
 	uint8_t data_buffer;
 

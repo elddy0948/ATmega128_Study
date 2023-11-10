@@ -5,8 +5,6 @@
  * Author : HJ KIM
  */ 
 
-#define F_CPU 16000000L
-
 #include "i2c_main.h"
 #include <util/delay.h>
 
@@ -16,7 +14,7 @@ const uint16_t address_to_write = 513;
 uint8_t prev_state = 0x00;
 uint8_t curr_state = 0x00;
 
-int main(void)
+void main(void)
 {
 	CLK_OUT;
 	DATA_OUT;
@@ -39,7 +37,7 @@ int main(void)
 			 
  			i2c_stop();
 		}
-		else if (ALL_SWITCH_OFF(prev_state) && SWITCH5_ON(curr_state))
+		if (ALL_SWITCH_OFF(prev_state) && SWITCH5_ON(curr_state))
 		{
 			i2c_start();
 			
@@ -49,7 +47,7 @@ int main(void)
 			
 			i2c_stop();
 		}
-		else if (ALL_SWITCH_OFF(prev_state) && SWITCH6_ON(curr_state))
+		if (ALL_SWITCH_OFF(prev_state) && SWITCH6_ON(curr_state))
 		{
 			i2c_start();
 			i2c_device_address_setup(DEVICE_ID, address_to_write, DA_WRITE);
@@ -61,7 +59,7 @@ int main(void)
 			
 			i2c_stop();
 		}
-		else if (ALL_SWITCH_OFF(prev_state) && SWITCH7_ON(curr_state))
+		if (ALL_SWITCH_OFF(prev_state) && SWITCH7_ON(curr_state))
 		{
 			i2c_start();
 			i2c_device_address_setup(DEVICE_ID,address_to_write, DA_WRITE);
@@ -76,5 +74,6 @@ int main(void)
 		
 		prev_state = curr_state;
     }
+	return;
 }
 

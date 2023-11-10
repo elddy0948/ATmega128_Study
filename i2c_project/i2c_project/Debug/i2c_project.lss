@@ -3,31 +3,31 @@ i2c_project.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000006  00800100  00000456  000004ea  2**0
+  0 .data         00000006  00800100  0000046e  00000502  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000456  00000000  00000000  00000094  2**1
+  1 .text         0000046e  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000003  00800106  00800106  000004f0  2**0
+  2 .bss          00000003  00800106  00800106  00000508  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000004f0  2**0
+  3 .comment      00000030  00000000  00000000  00000508  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000520  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000538  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000c8  00000000  00000000  00000560  2**0
+  5 .debug_aranges 000000c8  00000000  00000000  00000578  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000014b4  00000000  00000000  00000628  2**0
+  6 .debug_info   000014b5  00000000  00000000  00000640  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000a96  00000000  00000000  00001adc  2**0
+  7 .debug_abbrev 00000a68  00000000  00000000  00001af5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000959  00000000  00000000  00002572  2**0
+  8 .debug_line   00000959  00000000  00000000  0000255d  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000180  00000000  00000000  00002ecc  2**2
+  9 .debug_frame  00000180  00000000  00000000  00002eb8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000005b1  00000000  00000000  0000304c  2**0
+ 10 .debug_str    000005b1  00000000  00000000  00003038  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000009a4  00000000  00000000  000035fd  2**0
+ 11 .debug_loc    000009a4  00000000  00000000  000035e9  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000098  00000000  00000000  00003fa1  2**0
+ 12 .debug_ranges 00000098  00000000  00000000  00003f8d  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -116,7 +116,7 @@ Disassembly of section .text:
   98:	11 e0       	ldi	r17, 0x01	; 1
   9a:	a0 e0       	ldi	r26, 0x00	; 0
   9c:	b1 e0       	ldi	r27, 0x01	; 1
-  9e:	e6 e5       	ldi	r30, 0x56	; 86
+  9e:	ee e6       	ldi	r30, 0x6E	; 110
   a0:	f4 e0       	ldi	r31, 0x04	; 4
   a2:	00 e0       	ldi	r16, 0x00	; 0
   a4:	0b bf       	out	0x3b, r16	; 59
@@ -141,7 +141,7 @@ Disassembly of section .text:
   be:	b2 07       	cpc	r27, r18
   c0:	e1 f7       	brne	.-8      	; 0xba <.do_clear_bss_loop>
   c2:	62 d1       	rcall	.+708    	; 0x388 <main>
-  c4:	c6 c1       	rjmp	.+908    	; 0x452 <_exit>
+  c4:	d2 c1       	rjmp	.+932    	; 0x46a <_exit>
 
 000000c6 <__bad_interrupt>:
   c6:	9c cf       	rjmp	.-200    	; 0x0 <__vectors>
@@ -150,7 +150,7 @@ Disassembly of section .text:
 uint8_t response = 0x00;
 static uint8_t page_buffer[PAGE_MAX] = {0x00};
 
-void i2c_start()
+void i2c_start(void)
 {
 	CLK_OUT;
   c8:	81 b3       	in	r24, 0x11	; 17
@@ -195,7 +195,7 @@ void i2c_start()
 000000fa <i2c_stop>:
 }
 
-void i2c_stop()
+void i2c_stop(void)
 {
 	CLK_OUT;
   fa:	81 b3       	in	r24, 0x11	; 17
@@ -362,7 +362,7 @@ void write_data(uint8_t data)
 
 000001d0 <receive_response>:
 
-uint8_t receive_response()
+uint8_t receive_response(void)
 {
 	uint8_t t;
 	
@@ -441,7 +441,7 @@ uint8_t receive_response()
 
 00000226 <read_data>:
 
-uint8_t read_data()
+uint8_t read_data(void)
 {
  226:	cf 93       	push	r28
  228:	df 93       	push	r29
@@ -458,7 +458,7 @@ uint8_t read_data()
 	return NOACK;
 }
 
-uint8_t read_data()
+uint8_t read_data(void)
 {
 	uint8_t data_buffer = 0x00;
  232:	d0 e0       	ldi	r29, 0x00	; 0
@@ -697,7 +697,7 @@ void i2c_page_write(const uint8_t page[], uint8_t page_size)
 0000031e <i2c_byte_read>:
  31e:	cf 93       	push	r28
 
-void i2c_byte_read()
+void i2c_byte_read(void)
 {
 	uint8_t data_buffer;
 
@@ -814,7 +814,7 @@ void display_led(uint8_t led_to_display)
 uint8_t prev_state = 0x00;
 uint8_t curr_state = 0x00;
 
-int main(void)
+void main(void)
 {
 	CLK_OUT;
  388:	81 b3       	in	r24, 0x11	; 17
@@ -843,9 +843,9 @@ int main(void)
  3a2:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <prev_state>
  3a6:	80 7f       	andi	r24, 0xF0	; 240
  3a8:	80 3f       	cpi	r24, 0xF0	; 240
- 3aa:	79 f4       	brne	.+30     	; 0x3ca <main+0x42>
+ 3aa:	71 f4       	brne	.+28     	; 0x3c8 <main+0x40>
  3ac:	94 fd       	sbrc	r25, 4
- 3ae:	0d c0       	rjmp	.+26     	; 0x3ca <main+0x42>
+ 3ae:	0c c0       	rjmp	.+24     	; 0x3c8 <main+0x40>
 		{
 			i2c_start();
  3b0:	8b de       	rcall	.-746    	; 0xc8 <i2c_start>
@@ -866,113 +866,119 @@ int main(void)
 			 
  			i2c_stop();
  3c6:	99 de       	rcall	.-718    	; 0xfa <i2c_stop>
- 3c8:	3f c0       	rjmp	.+126    	; 0x448 <__LOCK_REGION_LENGTH__+0x48>
+ 3c8:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <prev_state>
 		}
-		else if (ALL_SWITCH_OFF(prev_state) && SWITCH5_ON(curr_state))
- 3ca:	80 3f       	cpi	r24, 0xF0	; 240
- 3cc:	89 f4       	brne	.+34     	; 0x3f0 <main+0x68>
- 3ce:	95 fd       	sbrc	r25, 5
- 3d0:	0f c0       	rjmp	.+30     	; 0x3f0 <main+0x68>
+		if (ALL_SWITCH_OFF(prev_state) && SWITCH5_ON(curr_state))
+ 3cc:	80 7f       	andi	r24, 0xF0	; 240
+ 3ce:	80 3f       	cpi	r24, 0xF0	; 240
+ 3d0:	91 f4       	brne	.+36     	; 0x3f6 <main+0x6e>
+ 3d2:	80 91 07 01 	lds	r24, 0x0107	; 0x800107 <curr_state>
+ 3d6:	85 fd       	sbrc	r24, 5
+ 3d8:	0e c0       	rjmp	.+28     	; 0x3f6 <main+0x6e>
 		{
 			i2c_start();
- 3d2:	7a de       	rcall	.-780    	; 0xc8 <i2c_start>
+ 3da:	76 de       	rcall	.-788    	; 0xc8 <i2c_start>
 			
 			i2c_device_address_setup(DEVICE_ID,address_to_write, DA_WRITE);
- 3d4:	40 e0       	ldi	r20, 0x00	; 0
- 3d6:	61 e0       	ldi	r22, 0x01	; 1
- 3d8:	72 e0       	ldi	r23, 0x02	; 2
- 3da:	80 ea       	ldi	r24, 0xA0	; 160
- 3dc:	68 df       	rcall	.-304    	; 0x2ae <i2c_device_address_setup>
+ 3dc:	40 e0       	ldi	r20, 0x00	; 0
+ 3de:	61 e0       	ldi	r22, 0x01	; 1
+ 3e0:	72 e0       	ldi	r23, 0x02	; 2
+ 3e2:	80 ea       	ldi	r24, 0xA0	; 160
+ 3e4:	64 df       	rcall	.-312    	; 0x2ae <i2c_device_address_setup>
 			i2c_address_setup(address_to_write);
- 3de:	81 e0       	ldi	r24, 0x01	; 1
- 3e0:	92 e0       	ldi	r25, 0x02	; 2
- 3e2:	78 df       	rcall	.-272    	; 0x2d4 <i2c_address_setup>
-			i2c_page_write(tmp_page, PAGE_SIZE(tmp_page));
- 3e4:	65 e0       	ldi	r22, 0x05	; 5
  3e6:	81 e0       	ldi	r24, 0x01	; 1
- 3e8:	91 e0       	ldi	r25, 0x01	; 1
- 3ea:	81 df       	rcall	.-254    	; 0x2ee <i2c_page_write>
+ 3e8:	92 e0       	ldi	r25, 0x02	; 2
+ 3ea:	74 df       	rcall	.-280    	; 0x2d4 <i2c_address_setup>
+			i2c_page_write(tmp_page, PAGE_SIZE(tmp_page));
+ 3ec:	65 e0       	ldi	r22, 0x05	; 5
+ 3ee:	81 e0       	ldi	r24, 0x01	; 1
+ 3f0:	91 e0       	ldi	r25, 0x01	; 1
+ 3f2:	7d df       	rcall	.-262    	; 0x2ee <i2c_page_write>
+ 3f4:	82 de       	rcall	.-764    	; 0xfa <i2c_stop>
 			
 			i2c_stop();
- 3ec:	86 de       	rcall	.-756    	; 0xfa <i2c_stop>
- 3ee:	2c c0       	rjmp	.+88     	; 0x448 <__LOCK_REGION_LENGTH__+0x48>
+ 3f6:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <prev_state>
 		}
-		else if (ALL_SWITCH_OFF(prev_state) && SWITCH6_ON(curr_state))
- 3f0:	80 3f       	cpi	r24, 0xF0	; 240
- 3f2:	a1 f4       	brne	.+40     	; 0x41c <__LOCK_REGION_LENGTH__+0x1c>
- 3f4:	96 fd       	sbrc	r25, 6
+		if (ALL_SWITCH_OFF(prev_state) && SWITCH6_ON(curr_state))
+ 3fa:	80 7f       	andi	r24, 0xF0	; 240
+ 3fc:	80 3f       	cpi	r24, 0xF0	; 240
+ 3fe:	a9 f4       	brne	.+42     	; 0x42a <__LOCK_REGION_LENGTH__+0x2a>
+ 400:	80 91 07 01 	lds	r24, 0x0107	; 0x800107 <curr_state>
+ 404:	86 fd       	sbrc	r24, 6
 		{
 			i2c_start();
- 3f6:	12 c0       	rjmp	.+36     	; 0x41c <__LOCK_REGION_LENGTH__+0x1c>
- 3f8:	67 de       	rcall	.-818    	; 0xc8 <i2c_start>
+ 406:	11 c0       	rjmp	.+34     	; 0x42a <__LOCK_REGION_LENGTH__+0x2a>
+ 408:	5f de       	rcall	.-834    	; 0xc8 <i2c_start>
 			i2c_device_address_setup(DEVICE_ID, address_to_write, DA_WRITE);
- 3fa:	40 e0       	ldi	r20, 0x00	; 0
- 3fc:	61 e0       	ldi	r22, 0x01	; 1
- 3fe:	72 e0       	ldi	r23, 0x02	; 2
- 400:	80 ea       	ldi	r24, 0xA0	; 160
+ 40a:	40 e0       	ldi	r20, 0x00	; 0
+ 40c:	61 e0       	ldi	r22, 0x01	; 1
+ 40e:	72 e0       	ldi	r23, 0x02	; 2
+ 410:	80 ea       	ldi	r24, 0xA0	; 160
 			i2c_address_setup(address_to_write);
- 402:	55 df       	rcall	.-342    	; 0x2ae <i2c_device_address_setup>
- 404:	81 e0       	ldi	r24, 0x01	; 1
- 406:	92 e0       	ldi	r25, 0x02	; 2
- 408:	65 df       	rcall	.-310    	; 0x2d4 <i2c_address_setup>
+ 412:	4d df       	rcall	.-358    	; 0x2ae <i2c_device_address_setup>
+ 414:	81 e0       	ldi	r24, 0x01	; 1
+ 416:	92 e0       	ldi	r25, 0x02	; 2
+ 418:	5d df       	rcall	.-326    	; 0x2d4 <i2c_address_setup>
 			
 			i2c_start();
- 40a:	5e de       	rcall	.-836    	; 0xc8 <i2c_start>
+ 41a:	56 de       	rcall	.-852    	; 0xc8 <i2c_start>
+ 41c:	41 e0       	ldi	r20, 0x01	; 1
 			i2c_device_address_setup(DEVICE_ID, address_to_write, DA_READ);
- 40c:	41 e0       	ldi	r20, 0x01	; 1
- 40e:	61 e0       	ldi	r22, 0x01	; 1
- 410:	72 e0       	ldi	r23, 0x02	; 2
- 412:	80 ea       	ldi	r24, 0xA0	; 160
- 414:	4c df       	rcall	.-360    	; 0x2ae <i2c_device_address_setup>
+ 41e:	61 e0       	ldi	r22, 0x01	; 1
+ 420:	72 e0       	ldi	r23, 0x02	; 2
+ 422:	80 ea       	ldi	r24, 0xA0	; 160
+ 424:	44 df       	rcall	.-376    	; 0x2ae <i2c_device_address_setup>
+ 426:	7b df       	rcall	.-266    	; 0x31e <i2c_byte_read>
 			i2c_byte_read();
- 416:	83 df       	rcall	.-250    	; 0x31e <i2c_byte_read>
+ 428:	68 de       	rcall	.-816    	; 0xfa <i2c_stop>
 			
 			i2c_stop();
- 418:	70 de       	rcall	.-800    	; 0xfa <i2c_stop>
- 41a:	16 c0       	rjmp	.+44     	; 0x448 <__LOCK_REGION_LENGTH__+0x48>
- 41c:	80 3f       	cpi	r24, 0xF0	; 240
+ 42a:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <prev_state>
 		}
-		else if (ALL_SWITCH_OFF(prev_state) && SWITCH7_ON(curr_state))
- 41e:	a1 f4       	brne	.+40     	; 0x448 <__LOCK_REGION_LENGTH__+0x48>
- 420:	99 23       	and	r25, r25
+		if (ALL_SWITCH_OFF(prev_state) && SWITCH7_ON(curr_state))
+ 42e:	80 7f       	andi	r24, 0xF0	; 240
+ 430:	80 3f       	cpi	r24, 0xF0	; 240
+ 432:	b1 f4       	brne	.+44     	; 0x460 <__LOCK_REGION_LENGTH__+0x60>
+ 434:	80 91 07 01 	lds	r24, 0x0107	; 0x800107 <curr_state>
+ 438:	88 23       	and	r24, r24
 		{
 			i2c_start();
- 422:	94 f0       	brlt	.+36     	; 0x448 <__LOCK_REGION_LENGTH__+0x48>
+ 43a:	94 f0       	brlt	.+36     	; 0x460 <__LOCK_REGION_LENGTH__+0x60>
 			i2c_device_address_setup(DEVICE_ID,address_to_write, DA_WRITE);
- 424:	51 de       	rcall	.-862    	; 0xc8 <i2c_start>
- 426:	40 e0       	ldi	r20, 0x00	; 0
- 428:	61 e0       	ldi	r22, 0x01	; 1
- 42a:	72 e0       	ldi	r23, 0x02	; 2
- 42c:	80 ea       	ldi	r24, 0xA0	; 160
- 42e:	3f df       	rcall	.-386    	; 0x2ae <i2c_device_address_setup>
+ 43c:	45 de       	rcall	.-886    	; 0xc8 <i2c_start>
+ 43e:	40 e0       	ldi	r20, 0x00	; 0
+ 440:	61 e0       	ldi	r22, 0x01	; 1
+ 442:	72 e0       	ldi	r23, 0x02	; 2
+ 444:	80 ea       	ldi	r24, 0xA0	; 160
+ 446:	33 df       	rcall	.-410    	; 0x2ae <i2c_device_address_setup>
 			i2c_address_setup(address_to_write);
- 430:	81 e0       	ldi	r24, 0x01	; 1
- 432:	92 e0       	ldi	r25, 0x02	; 2
- 434:	4f df       	rcall	.-354    	; 0x2d4 <i2c_address_setup>
- 436:	48 de       	rcall	.-880    	; 0xc8 <i2c_start>
+ 448:	81 e0       	ldi	r24, 0x01	; 1
+ 44a:	92 e0       	ldi	r25, 0x02	; 2
+ 44c:	43 df       	rcall	.-378    	; 0x2d4 <i2c_address_setup>
+ 44e:	3c de       	rcall	.-904    	; 0xc8 <i2c_start>
 			
 			i2c_start();
- 438:	41 e0       	ldi	r20, 0x01	; 1
- 43a:	61 e0       	ldi	r22, 0x01	; 1
+ 450:	41 e0       	ldi	r20, 0x01	; 1
+ 452:	61 e0       	ldi	r22, 0x01	; 1
 			i2c_device_address_setup(DEVICE_ID, address_to_write, DA_READ);			
- 43c:	72 e0       	ldi	r23, 0x02	; 2
- 43e:	80 ea       	ldi	r24, 0xA0	; 160
- 440:	36 df       	rcall	.-404    	; 0x2ae <i2c_device_address_setup>
- 442:	85 e0       	ldi	r24, 0x05	; 5
- 444:	75 df       	rcall	.-278    	; 0x330 <i2c_page_read>
- 446:	59 de       	rcall	.-846    	; 0xfa <i2c_stop>
+ 454:	72 e0       	ldi	r23, 0x02	; 2
+ 456:	80 ea       	ldi	r24, 0xA0	; 160
+ 458:	2a df       	rcall	.-428    	; 0x2ae <i2c_device_address_setup>
+ 45a:	85 e0       	ldi	r24, 0x05	; 5
+ 45c:	69 df       	rcall	.-302    	; 0x330 <i2c_page_read>
+ 45e:	4d de       	rcall	.-870    	; 0xfa <i2c_stop>
 			i2c_page_read(5);
- 448:	80 91 07 01 	lds	r24, 0x0107	; 0x800107 <curr_state>
- 44c:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <prev_state>
+ 460:	80 91 07 01 	lds	r24, 0x0107	; 0x800107 <curr_state>
+ 464:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <prev_state>
 			
 			i2c_stop();
- 450:	a5 cf       	rjmp	.-182    	; 0x39c <main+0x14>
+ 468:	99 cf       	rjmp	.-206    	; 0x39c <main+0x14>
 
-00000452 <_exit>:
+0000046a <_exit>:
 		}
 		
 		prev_state = curr_state;
- 452:	f8 94       	cli
+ 46a:	f8 94       	cli
 
-00000454 <__stop_program>:
- 454:	ff cf       	rjmp	.-2      	; 0x454 <__stop_program>
+0000046c <__stop_program>:
+ 46c:	ff cf       	rjmp	.-2      	; 0x46c <__stop_program>
