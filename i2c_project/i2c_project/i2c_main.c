@@ -12,7 +12,7 @@
 uint8_t response = 0x00;
 static uint8_t page_buffer[PAGE_MAX] = {0x00};
 
-void i2c_start()
+void i2c_start(void)
 {
 	CLK_OUT;
 	DATA_OUT;
@@ -24,7 +24,7 @@ void i2c_start()
 	CLK_LOW;
 }
 
-void i2c_stop()
+void i2c_stop(void)
 {
 	CLK_OUT;
 	DATA_OUT;
@@ -42,7 +42,6 @@ void write_data(uint8_t data)
 	uint8_t data_buffer = data;
 
 	DATA_OUT;
-	_delay_us(4);
 	
 	for (i = 0; i < 7; ++i)
 	{
@@ -56,35 +55,35 @@ void write_data(uint8_t data)
 			DATA_LOW;
 		}
 		
-		_delay_us(4);
+		_delay_us(3);
 		CLK_HIGH;
-		_delay_us(4);
+		_delay_us(5);
 		CLK_LOW;
+		_delay_us(5);
 	}
 	
 	if (((data_buffer << i) & 0x80) == 0x80) DATA_HIGH;
 	else DATA_LOW;
 	
-	_delay_us(4);
-	CLK_HIGH;
 	_delay_us(3);
+	CLK_HIGH;
+	_delay_us(5);
 	CLK_LOW;
-	_delay_us(4);
+	_delay_us(5);
 }
 
-uint8_t receive_response()
+uint8_t receive_response(void)
 {
 	uint8_t t;
 	
 	DATA_IN;
-	_delay_us(6);
-	
 	CLK_HIGH;
 	
-	for (t = 0; t < 100; ++t)
+	for (t = 0; t < 20; ++t)
 	{	
 		if ((PIND & 0x02) == ACK)
-		{			
+		{
+			_delay_us(6);			
 			CLK_LOW;
 			DATA_OUT;
 			_delay_us(6);
@@ -92,6 +91,7 @@ uint8_t receive_response()
 		}
 	}
 	
+	_delay_us(6);
 	CLK_LOW;
 	DATA_OUT;
 	_delay_us(6);
@@ -99,7 +99,7 @@ uint8_t receive_response()
 	return NOACK;
 }
 
-uint8_t read_data()
+uint8_t read_data(void)
 {
 	uint8_t data_buffer = 0x00;
 	uint8_t i;
@@ -109,7 +109,6 @@ uint8_t read_data()
 	for (i = 0; i < 8; ++i)
 	{
 		loading_led();
-		_delay_us(4);
 		CLK_HIGH;
 		_delay_us(10);
 		CLK_LOW;
@@ -118,6 +117,7 @@ uint8_t read_data()
 		{ 
 			data_buffer <<= 1;
 		}
+		_delay_us(3);
 	}
 	
 	return data_buffer;
@@ -126,17 +126,17 @@ uint8_t read_data()
 void send_response(uint8_t data)
 {
 	DATA_OUT;
-	_delay_us(4);
-	
+
 	if (data == ACK)
 		SEND_ACK;
 	else if (data == NOACK)
 		SEND_NOACK;
 	
-	_delay_us(4);
+	_delay_us(3);
 	CLK_HIGH;
-	_delay_us(4);
+	_delay_us(5);
 	CLK_LOW;
+	_delay_us(5);
 }
 
 void i2c_device_address_setup(uint8_t device_id, uint16_t target_address, uint8_t rw)
@@ -144,9 +144,9 @@ void i2c_device_address_setup(uint8_t device_id, uint16_t target_address, uint8_
 	uint8_t device_address = 0x00;
 
 	if (((target_address >> 9) & 0x0001) == 0x0001)
-		SET_A9;
+		SET_A9(device_address);
 	else if (((target_address >> 8) & 0x0001) == 0x0001)
-		SET_A8;
+		SET_A8(device_address);
 	
 	device_address |= rw;
 	device_address |= device_id;
@@ -154,6 +154,7 @@ void i2c_device_address_setup(uint8_t device_id, uint16_t target_address, uint8_
 	write_data(device_address);
 	
 	response = receive_response();
+	
 	if (response == NOACK) { i2c_stop(); }
 }
 
@@ -189,7 +190,7 @@ void i2c_page_write(const uint8_t page[], uint8_t page_size)
 	}
 }
 
-void i2c_byte_read()
+void i2c_byte_read(void)
 {
 	uint8_t data_buffer;
 
@@ -217,5 +218,5 @@ void i2c_page_read(uint8_t page_size)
 	
 	send_response(NOACK);
 	
-	display_led(data_buffer)
+	display_led(data_buffer);
 }
