@@ -37,9 +37,14 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+<<<<<<< HEAD
 ../comp_int.c \
 ../main.c \
 ../overflow_int.c
+=======
+../int_oscillator.c \
+../main.c
+>>>>>>> 6b25de4a6c3123bffb209df752a8b58b2efad1fd
 
 
 PREPROCESSING_SRCS += 
@@ -49,6 +54,7 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+<<<<<<< HEAD
 comp_int.o \
 main.o \
 overflow_int.o
@@ -67,6 +73,22 @@ C_DEPS_AS_ARGS +=  \
 comp_int.d \
 main.d \
 overflow_int.d
+=======
+int_oscillator.o \
+main.o
+
+OBJS_AS_ARGS +=  \
+int_oscillator.o \
+main.o
+
+C_DEPS +=  \
+int_oscillator.d \
+main.d
+
+C_DEPS_AS_ARGS +=  \
+int_oscillator.d \
+main.d
+>>>>>>> 6b25de4a6c3123bffb209df752a8b58b2efad1fd
 
 OUTPUT_FILE_PATH +=Timer_Counter_8bits.elf
 
@@ -82,7 +104,11 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+<<<<<<< HEAD
 ./comp_int.o: .././comp_int.c
+=======
+./int_oscillator.o: .././int_oscillator.c
+>>>>>>> 6b25de4a6c3123bffb209df752a8b58b2efad1fd
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega128a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega128a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
@@ -96,6 +122,7 @@ LINKER_SCRIPT_DEP+=
 	@echo Finished building: $<
 	
 
+<<<<<<< HEAD
 ./overflow_int.o: .././overflow_int.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
@@ -103,6 +130,8 @@ LINKER_SCRIPT_DEP+=
 	@echo Finished building: $<
 	
 
+=======
+>>>>>>> 6b25de4a6c3123bffb209df752a8b58b2efad1fd
 
 
 

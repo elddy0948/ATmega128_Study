@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-main.d main.o: .././main.c .././overflow_int.h \
-=======
-main.d main.o: .././main.c .././int_oscillator.h \
->>>>>>> 6b25de4a6c3123bffb209df752a8b58b2efad1fd
+int_oscillator.d int_oscillator.o: .././int_oscillator.c \
+ .././int_oscillator.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
@@ -16,11 +13,7 @@ main.d main.o: .././main.c .././int_oscillator.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h
 
-<<<<<<< HEAD
-.././overflow_int.h:
-=======
 .././int_oscillator.h:
->>>>>>> 6b25de4a6c3123bffb209df752a8b58b2efad1fd
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 

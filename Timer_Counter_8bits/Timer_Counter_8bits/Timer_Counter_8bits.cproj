@@ -151,21 +151,33 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="comp_int.c">
+    <None Include="comp_int.c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="comp_int.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="int_oscillator.c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="int_oscillator.h">
+      <SubType>compile</SubType>
+    </None>
+    <Compile Include="int_runtime.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="comp_int.h">
+    <Compile Include="int_runtime.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="overflow_int.c">
+    <None Include="overflow_int.c">
       <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="overflow_int.h">
+    </None>
+    <None Include="overflow_int.h">
       <SubType>compile</SubType>
-    </Compile>
+    </None>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
