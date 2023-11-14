@@ -4,18 +4,19 @@
  * Created: 2023-11-13 오후 9:55:22
  * Author : HJ KIM
  */ 
-#include "comp_int.h"
+#include "int_runtime.h"
 
 int main(void)
 {
-	DDRB |= 0x01;
-	PORTB = 0x00;
+	init_ports();
+	init_timer0();
 	
-	INIT_TCINT();
+	unsigned long curr_time, prev_time;
+	prev_time = get_millis();
 	
     while (1) 
     {
-		comp_int_main();
+		int_runtime_main(curr_time, prev_time);
     }
 }
 
