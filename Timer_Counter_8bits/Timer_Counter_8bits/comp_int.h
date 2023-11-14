@@ -13,6 +13,9 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+volatile int count = 0;
+int state = 0;
+
 // 1
 void comp_int_main(void);
 ISR(TIMER0_COMP_vect);

@@ -14,7 +14,7 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
-ISR(INT0_vect);
+ISR(INT4_vect);
 void INIT_PORT(void);
 void INIT_INT0(void);
 void led_int_main(void);

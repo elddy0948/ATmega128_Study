@@ -7,17 +7,14 @@
  */ 
 #include "comp_int.h"
 
-volatile int count = 0;
-int state = 0;
-
 void comp_int_main(void)
 {
 	if (count == 0)
 	{
 		count = 0;
 		state = !state;
-		if (state) PORTB = 0x01;
-		else PORTB = 0x00;
+		if (state) PORTC = 0xFE;
+		else PORTC = 0xFF;
 	}
 }
 

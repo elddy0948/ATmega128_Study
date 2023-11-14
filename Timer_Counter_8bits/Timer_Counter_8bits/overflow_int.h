@@ -14,6 +14,6 @@
 #include <avr/interrupt.h>
 
 ISR(TIMER0_OVF_vect);
-void INIT_TCINT(void);
+void INIT_OF_TCINT(void);
 
 #endif

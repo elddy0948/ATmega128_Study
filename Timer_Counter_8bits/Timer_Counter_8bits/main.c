@@ -4,18 +4,17 @@
  * Created: 2023-11-13 오후 9:55:22
  * Author : HJ KIM
  */ 
-#include "comp_int.h"
+#include "overflow_int.h"
 
 int main(void)
 {
-	DDRB |= 0x01;
-	PORTB = 0x00;
+	DDRC |= 0x01;
+	PORTC = 0xFF;
 	
-	INIT_TCINT();
+	INIT_OF_TCINT();
 	
     while (1) 
     {
-		comp_int_main();
     }
 }
 

@@ -5,31 +5,16 @@
  * Author : HJ KIM
  */ 
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
-
-// tell compiler that this `value` can change outside `main` function
-volatile int value = 0;
-
-ISR(INT0_vect)
-{
-	value = (value + 1) % 2;	
-}
+#include "led_int.h"
 
 int main(void)
 {
-	int local_value;
+	INIT_PORT();
+	INIT_INT0();
 	
     while (1) 
     {
-		ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-			local_value = value;
-		}
-		
-		if (local_value == 1) 
-		{
-			// DO SOMETHING ...
-		}
+		led_int_main();
     }
 	
 	return 0;
