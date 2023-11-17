@@ -5,13 +5,19 @@
  * Author : HJ KIM
  */ 
 
-#include <avr/io.h>
+#include "rxtx_example.h"
 
 int main(void)
 {
-    /* Replace with your application code */
+	init_ports();
+	//init_uart1();
+	init_eint();
+
+	sei();
+	
     while (1) 
     {
+		menu_main();
     }
 }
 

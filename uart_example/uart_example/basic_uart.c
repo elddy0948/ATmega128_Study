@@ -15,6 +15,7 @@ uint8_t DATA_REGISTER_EMPTY_FLAG_BIT = 1;
 ISR(USART1_RX_vect)
 {
 	cli();
+	PORTC = 0xFE;
 	RX_COMPLETE_FLAG_BIT = 1;
 	sei();
 }
@@ -35,6 +36,8 @@ ISR(USART1_UDRE_vect)
 
 void uart1_init(void)
 {
+	DDRC |= 0xFF;
+	PORTC = 0xFF;
 	// setup baud rate
 	// datasheet p.266
 	UBRR1H = 0x00;			// baud rate : 9,600
@@ -58,16 +61,23 @@ void uart1_interrupt_init(void)
 
 void uart1_transmit(uint8_t data)
 {
-	// while (TX_COMPLETE_FLAG_BIT && DATA_REGISTER_EMPTY_FLAG_BIT);
-	while (DATA_REGISTER_EMPTY_FLAG_BIT);
-	// TX_COMPLETE_FLAG_BIT = 0;
-	UDR1 = data;
+	while(!DATA_REGISTER_EMPTY_FLAG_BIT);
 	DATA_REGISTER_EMPTY_FLAG_BIT = 0;
+	UDR1 = data;
 }
 
 uint8_t uart1_receive(void)
 {
-	while (RX_COMPLETE_FLAG_BIT);
+	while(!RX_COMPLETE_FLAG_BIT);
 	RX_COMPLETE_FLAG_BIT = 0;
 	return UDR1;
+}
+
+void uart1_print_string(char *str)
+{
+	int i;
+	for (i = 0; str[i]; i++)
+	{
+		uart1_transmit(str[i]);
+	}
 }
