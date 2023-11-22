@@ -12,9 +12,9 @@
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>adc_practice</AssemblyName>
-    <Name>adc_practice</Name>
-    <RootNamespace>adc_practice</RootNamespace>
+    <AssemblyName>project2</AssemblyName>
+    <Name>project2</Name>
+    <RootNamespace>project2</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
@@ -43,6 +43,19 @@
     <avrtool>com.atmel.avrdbg.tool.stk500</avrtool>
     <avrtoolserialnumber />
     <avrdeviceexpectedsignature>0x1E9702</avrdeviceexpectedsignature>
+    <com_atmel_avrdbg_tool_simulator>
+      <ToolOptions>
+        <InterfaceProperties>
+        </InterfaceProperties>
+        <InterfaceName>
+        </InterfaceName>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.simulator</ToolType>
+      <ToolNumber>
+      </ToolNumber>
+      <ToolName>Simulator</ToolName>
+    </com_atmel_avrdbg_tool_simulator>
+    <avrtoolinterface>ISP</avrtoolinterface>
     <com_atmel_avrdbg_tool_stk500>
       <ToolOptions>
         <InterfaceProperties>
@@ -55,7 +68,6 @@
       </ToolNumber>
       <ToolName>STK500</ToolName>
     </com_atmel_avrdbg_tool_stk500>
-    <avrtoolinterface>ISP</avrtoolinterface>
     <avrtoolinterfaceclock>125000</avrtoolinterfaceclock>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -139,33 +151,39 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="thermistor_example.c">
+    <Compile Include="adc_main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="thermistor_example.h">
+    <Compile Include="adc_main.h">
       <SubType>compile</SubType>
     </Compile>
-    <None Include="free_running.c">
+    <Compile Include="interrupt_main.c">
       <SubType>compile</SubType>
-    </None>
-    <None Include="free_running.h">
+    </Compile>
+    <Compile Include="interrupt_main.h">
       <SubType>compile</SubType>
-    </None>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <None Include="variable_resistance.c">
+    <Compile Include="seven_segments.c">
       <SubType>compile</SubType>
-    </None>
-    <None Include="variable_resistance.h">
+    </Compile>
+    <Compile Include="seven_segments.h">
       <SubType>compile</SubType>
-    </None>
-    <None Include="uart1_main.c">
+    </Compile>
+    <Compile Include="timer_main.c">
       <SubType>compile</SubType>
-    </None>
-    <None Include="uart1_main.h">
+    </Compile>
+    <Compile Include="timer_main.h">
       <SubType>compile</SubType>
-    </None>
+    </Compile>
+    <Compile Include="uart0_main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="uart0_main.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
