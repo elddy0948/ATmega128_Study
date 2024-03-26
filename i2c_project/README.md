@@ -257,3 +257,6 @@ void send_response(uint8_t data)
 ```
 
 ## Test image
+
+<img src="./resources/test1.jpeg" width="400"/>
+<img src="./resources/test2.jpeg" width="400">
