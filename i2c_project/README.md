@@ -3,26 +3,26 @@
 ## Contents
 
 - [I2C Interface](#i2c-interface)
-  - [Contents](#contents)
-  - [Hardware](#hardware)
-  - [EEPROM 제작](#eeprom-제작)
-  - [Data write](#data-write)
-    - [Image](#image)
-    - [Write data](#write-data)
-    - [Byte write](#byte-write)
-    - [Page write](#page-write)
-  - [Data read](#data-read)
-    - [Image](#image-1)
-    - [Read data](#read-data)
-    - [Byte read](#byte-read)
-    - [Page read](#page-read)
-  - [Address setup](#address-setup)
-    - [Device address](#device-address)
-    - [Address setup](#address-setup-1)
-  - [Response](#response)
-    - [Send response](#send-response)
-    - [Receive response](#receive-response)
-  - [Test image](#test-image)
+	- [Contents](#contents)
+	- [Hardware](#hardware)
+	- [EEPROM 제작](#eeprom-제작)
+	- [Data write](#data-write)
+		- [Image](#image)
+		- [Write data](#write-data)
+		- [Byte write](#byte-write)
+		- [Page write](#page-write)
+	- [Data read](#data-read)
+		- [Image](#image-1)
+		- [Read data](#read-data)
+		- [Byte read](#byte-read)
+		- [Page read](#page-read)
+	- [Address setup](#address-setup)
+		- [Device address](#device-address)
+		- [Address setup](#address-setup-1)
+	- [Response](#response)
+		- [Send response](#send-response)
+		- [Receive response](#receive-response)
+	- [Test image](#test-image)
 
 ## Hardware
 
@@ -31,7 +31,7 @@
 
 ## EEPROM 제작
 
-<img src="./resources/eeprom.jpeg" width="300"/>
+<img src="./resources/eeprom2.jpeg" width="300"/>
 
 ## Data write
 
